@@ -1,0 +1,14 @@
+OrderStatus 
+8
+
+ProductType 
+10
+
+Store 
+3
+
+Postal Code
+5000
+8000
+1700
+

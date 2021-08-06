@@ -1,0 +1,23 @@
+
+
+1 NF
+atomære 
+- ikke samme værdi i samme celle
+- samme type data må ikke gentages i kolonner (bog1, bog2)
+- samme data må ikke gentages i rækker medmindre det er FK
+
+
+2 NF
+delvis afhængighed
+- kolonner må ikke kun være afhængig af én nøgle i sammensatte nøgler 
+- relevant for tabeller med FK
+
+3 NF
+
+
+
+Forklaring af ER diagram
+
+Beskrivelse af 1 til mange, og mange til mange osv.
+Evt. Forklaring af PK og FK som constraints/begrænsninger som er
+unikke identifiers. 
