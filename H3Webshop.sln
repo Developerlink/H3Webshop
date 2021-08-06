@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicsWebAPI", "ElectronicsWebAPI\ElectronicsWebAPI.csproj", "{EC954FA2-4F17-486E-B5F0-D7A738330BBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlFiles", "SqlFiles", "{A001399F-C5FE-4EEA-AD13-C357F04FC337}"
+	ProjectSection(SolutionItems) = preProject
+		SqlFiles\electronicsdb_available_key_range.txt = SqlFiles\electronicsdb_available_key_range.txt
+		SqlFiles\H3_sql_alle.sql = SqlFiles\H3_sql_alle.sql
+		SqlFiles\sql_normal_forms.txt = SqlFiles\sql_normal_forms.txt
+		SqlFiles\testing_ground_sql.sql = SqlFiles\testing_ground_sql.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {715EBF74-8EE2-4D84-8DFB-300D82B5B2D7}
+	EndGlobalSection
+EndGlobal

@@ -210,7 +210,7 @@ Values
 (8000, 'Aarhusvej 50', 'Electronics Aarhus')
 
 
-INSERT INTO Product([ProductCategoryId],[Name],[Description],[Price]) 
+INSERT INTO Product([ProductTypeId],[Name],[Description],[Price]) 
 VALUES
 (1,'IdeaPad Gaming 3i','Få den bedste spil- og esportsoplevelse med en pc, dine gamingvenner vil se langt efter. Den bærbare IdeaPad Gaming 3i-computer, der er udviklet med op til banebrydende 10. generation Intel® Core™ i7-processor, dedikeret NVIDIA®-grafik, op til 120 Hz FHD-skærm og et avanceret gamingtastatur, udstråler stille og skræmmende selvsikkerhed. Nyd tydelige billeder og glidende gaming på din vej til magten.',4088),
 (1,'Vision W915 Workstation','Vision Workstation W915 er en stærk arbejdscomputer, der kan bruges til en meget bred vifte af professionelle opgaver. Uanset om du skal bruge en computer til musikproduktion, krævende kontoropgaver eller lettere billedredigering, er Vision Workstation W915 et rigtig godt valg.',6614),
