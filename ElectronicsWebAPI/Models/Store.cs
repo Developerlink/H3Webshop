@@ -14,5 +14,8 @@ namespace ElectronicsWebAPI.Models
 
 
         public virtual PostalCode PostalCode { get; set; }
+        public virtual ICollection<Department> Departments { get; set; }
+        public virtual ICollection<StoreProduct> StoreProducts { get; set; }
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

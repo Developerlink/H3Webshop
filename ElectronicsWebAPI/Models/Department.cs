@@ -13,5 +13,6 @@ namespace ElectronicsWebAPI.Models
 
 
         public virtual Store Store { get; set; }
+        public virtual ICollection<Employee> Employess { get; set; }
     }
 }

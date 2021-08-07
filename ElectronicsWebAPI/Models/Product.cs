@@ -15,5 +15,7 @@ namespace ElectronicsWebAPI.Models
 
 
         public virtual ProductType ProductType { get; set; }
+        public virtual ICollection<StoreProduct> StoreProducts { get; set; }
+        public virtual ICollection<OrderLine> OrderLines { get; set; }
     }
 }

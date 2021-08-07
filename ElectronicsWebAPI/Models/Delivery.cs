@@ -17,7 +17,5 @@ namespace ElectronicsWebAPI.Models
         public virtual SalesOrder SalesOrder { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual PostalCode PostalCode { get; set; }
-
-
     }
 }
