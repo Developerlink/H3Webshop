@@ -22,7 +22,18 @@ namespace ElectronicsWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddControllers();
+
+            var connectionString = "";
+
+            if (Environment.MachineName == "WLT02")
+            {
+                connectionString = Configuration["connectionStrings:electronicsHomeDbConnectionString"];
+            }
+            else
+            {
+                connectionString = Configuration["connectionStrings:electronicsShcoolDbConnectionString"];
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,10 +54,6 @@ namespace ElectronicsWebAPI
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-            });
         }
     }
 }

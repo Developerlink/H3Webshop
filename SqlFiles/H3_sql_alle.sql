@@ -30,7 +30,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Product (
  Id int primary key identity(1,1) not null,
- ProductCategoryId int not null,
+ ProductTypeId int not null,
  Name nvarchar(255) not null,
  Description text,
  Price decimal not null,
@@ -58,6 +58,7 @@ CREATE TABLE Department (
 CREATE TABLE Employee (
  Id int primary key identity(1,1) not null,
  PostalCodeId int not null,
+ DepartmentId int not null,
  FirstName nvarchar(50) not null,
  LastName nvarchar(50) not null,
  EmailAddress nvarchar(150) unique not null,
@@ -66,7 +67,8 @@ CREATE TABLE Employee (
  WorkEndDate datetime,
  IsActive bit not null,
  Address nvarchar(100) not null,
- foreign key (PostalCodeId) references PostalCode(PostalCodeID)
+ foreign key (PostalCodeId) references PostalCode(PostalCodeID),
+ foreign key (DepartmentId) references Department(Id)
 );
 
 CREATE TABLE StoreProduct (
@@ -74,7 +76,8 @@ CREATE TABLE StoreProduct (
  ProductId int not null,
  Quantity int not null,
  foreign key (StoreId) references Store(Id),
- foreign key (ProductId) references Product(Id)
+ foreign key (ProductId) references Product(Id),
+ primary key(StoreId, ProductId)
 );
 
 
@@ -89,26 +92,35 @@ CREATE TABLE SalesOrder (
 );
 
 CREATE TABLE OrderLine (
- SalesOrderId int,
- ProductId int,
+ SalesOrderId int not null,
+ ProductId int not null,
  Price decimal,
  Quantity smallint,
  foreign key (SalesOrderId) references SalesOrder(Id),
- foreign key (ProductId) references Product(Id)
+ foreign key (ProductId) references Product(Id),
+ primary key(SalesOrderId, ProductId)
 );
 
 CREATE TABLE Delivery (
- SalesOrderId int,
- CustomerId int,
- PostalCodeId int,
+ SalesOrderId int not null,
+ CustomerId int not null,
+ PostalCodeId int not null,
  Address nvarchar(100),
  SendDate datetime2,
  foreign key (SalesOrderId) references SalesOrder(Id),
  foreign key (PostalCodeId) references PostalCode(PostalCodeId),
- foreign key (CustomerId) references Customer(Id)
+ foreign key (CustomerId) references Customer(Id),
+ primary key(SalesOrderId, CustomerId, PostalCodeId)
 );
 
+alter table delivery
+add constraint pk_myConstraint primary key(SalesOrderId, CustomerId, PostalCodeId)
 
+alter table StoreProduct
+add constraint pk_myConstraint primary key(StoreId, ProductId)
+
+alter table OrderLine
+add constraint pk_myConstraint  primary key(SalesOrderId, ProductId)
 
 alter table delivery
 add CustomerId int not null,
@@ -125,8 +137,8 @@ alter table salesorder
 drop column CustomerId
 
 
+use ElectronicsDB;
 
-// 1-8
 insert into OrderStatus 
 values 
 ('Pending'),
@@ -136,9 +148,8 @@ values
 ('Delivery in progress'),
 ('Received'),
 ('Returned'),
-('Not delivered')
+('Not delivered');
 
-// 1-11
 insert into ProductType 
 values 
 ('PC & Tablets'),
@@ -150,7 +161,7 @@ values
 ('Appliances'),
 ('Accessories'),
 ('Chargers & Cables'),
-('Other')
+('Other');
 
 
 
@@ -207,7 +218,7 @@ insert into Store
 Values 
 (1700, 'Havnevej 100', 'Electronics Kbh V'),
 (5000, 'Odensevej 30', 'Electronics Odense'),
-(8000, 'Aarhusvej 50', 'Electronics Aarhus')
+(8000, 'Aarhusvej 50', 'Electronics Aarhus');
 
 
 INSERT INTO Product([ProductTypeId],[Name],[Description],[Price]) 
@@ -302,10 +313,3 @@ INSERT INTO Orderline([SalesOrderId],[ProductId],[Price],[Quantity]) VALUES(41,6
 INSERT INTO Orderline([SalesOrderId],[ProductId],[Price],[Quantity]) VALUES(3,5,3418,'1'),(91,9,12328,'1'),(28,18,17913,'1'),(77,9,17231,'1'),(1,3,10296,'1'),(51,9,14320,'1'),(9,7,3817,'1'),(7,18,18381,'1'),(25,2,16091,'1'),(20,13,6657,'1'),(72,19,10072,'1'),(76,13,19431,'1'),(75,5,12714,'1'),(8,20,6390,'1'),(15,8,18552,'1'),(62,1,13375,'1'),(3,10,12753,'1'),(90,3,3209,'1'),(61,7,13386,'1'),(27,7,19201,'1');
 INSERT INTO Orderline([SalesOrderId],[ProductId],[Price],[Quantity]) VALUES(4,13,11421,'1'),(16,12,10779,'1'),(39,12,12851,'1'),(58,11,13557,'1'),(92,8,14491,'1'),(92,11,14357,'1'),(52,11,19085,'1'),(86,4,9378,'1'),(80,19,8887,'1'),(12,8,19455,'1'),(76,12,15210,'1'),(76,10,10705,'1'),(100,6,4646,'1'),(73,10,17376,'1'),(1,4,7699,'1'),(72,8,19780,'1'),(90,9,18346,'1'),(92,18,15896,'1'),(26,3,13137,'1'),(79,20,8170,'1');
 INSERT INTO Orderline([SalesOrderId],[ProductId],[Price],[Quantity]) VALUES(33,1,11869,'1'),(35,2,11754,'1'),(74,18,12169,'1'),(91,12,6952,'1'),(99,17,15021,'1'),(49,5,15707,'1'),(62,13,4917,'1'),(3,19,14015,'1'),(80,15,18782,'1'),(50,2,6388,'1'),(95,11,3015,'1'),(31,2,12635,'1'),(33,10,7006,'1'),(52,5,19021,'1'),(95,19,8153,'1'),(100,9,18709,'1'),(30,11,13926,'1'),(79,7,3350,'1'),(39,3,12708,'1'),(88,17,13927,'1');
-
-
-
-
-
-
-

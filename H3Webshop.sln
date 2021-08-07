@@ -3,15 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicsWebAPI", "ElectronicsWebAPI\ElectronicsWebAPI.csproj", "{EC954FA2-4F17-486E-B5F0-D7A738330BBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsWebAPI", "ElectronicsWebAPI\ElectronicsWebAPI.csproj", "{EC954FA2-4F17-486E-B5F0-D7A738330BBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlFiles", "SqlFiles", "{A001399F-C5FE-4EEA-AD13-C357F04FC337}"
 	ProjectSection(SolutionItems) = preProject
 		SqlFiles\electronicsdb_available_key_range.txt = SqlFiles\electronicsdb_available_key_range.txt
 		SqlFiles\H3_sql_alle.sql = SqlFiles\H3_sql_alle.sql
+		SqlFiles\PostalCodes.csv = SqlFiles\PostalCodes.csv
 		SqlFiles\sql_normal_forms.txt = SqlFiles\sql_normal_forms.txt
 		SqlFiles\testing_ground_sql.sql = SqlFiles\testing_ground_sql.sql
 	EndProjectSection
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ElectronicsDB", "ElectronicsDB\ElectronicsDB.sqlproj", "{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +26,12 @@ Global
 		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC954FA2-4F17-486E-B5F0-D7A738330BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
