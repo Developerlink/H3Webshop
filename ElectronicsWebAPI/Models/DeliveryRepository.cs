@@ -12,12 +12,22 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
-        public bool DeleteDelivery(Delivery delivery)
+        public bool DeleteDeliveriesByCustomer(int customerId)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeliveryExists(int deliveryId)
+        public bool DeleteDeliveriesByPostalCode(int postalCodeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteDeliveryBySalesOrder(int salesOrderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeliveryExists(int salesOrderId, int customerId, int postalCodeId)
         {
             throw new NotImplementedException();
         }
@@ -33,11 +43,6 @@ namespace ElectronicsWebAPI.Models
         }
 
         public ICollection<Delivery> GetDeliveriesFromPostalCode(int postalCodeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Delivery GetDelivery(int deliveryId)
         {
             throw new NotImplementedException();
         }

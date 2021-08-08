@@ -17,6 +17,11 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
+        public bool DeleteProductsByProductType(int productTypeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Product GetProduct(int productId)
         {
             throw new NotImplementedException();
@@ -32,7 +37,7 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
-        public ICollection<Product> GetProductsFromProductType(int porductTypeId)
+        public ICollection<Product> GetProductsFromProductType(int productTypeId)
         {
             throw new NotImplementedException();
         }

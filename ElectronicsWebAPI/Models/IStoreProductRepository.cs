@@ -16,7 +16,9 @@ namespace ElectronicsWebAPI.Models
 
         bool CreateStoreProduct(StoreProduct storeProduct);
         bool UpdateStoreProduct(StoreProduct storeProduct);
-        bool DeleteStoreProduct(StoreProduct storeProduct);
+        bool DeleteStoreProductByProduct(int productId);
+        bool DeleteStoreProductsByStore(int storeId);
+        bool DeleteStoreProduct(int storeId, int productId);
         bool Save();
     }
 }

@@ -17,6 +17,8 @@ namespace ElectronicsWebAPI.Models
         bool CreateEmployee(Employee employee);
         bool UpdateEmployee(Employee employee);
         bool DeleteEmployee(int employeeId);
+        bool DeleteEmployeesByDepartment(int departmentId);
+        bool DeleteEmployeesByPostalCode(int postalCodeId);
         bool Save();
     }
 }

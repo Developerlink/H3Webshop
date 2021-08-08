@@ -12,7 +12,17 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
-        public bool DeleteOrderLine(OrderLine orderLine)
+        public bool DeleteOrderLine(int salesOrderId, int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteOrderLinesByProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteOrderLinesBySalesOrder(int salesOrderId)
         {
             throw new NotImplementedException();
         }

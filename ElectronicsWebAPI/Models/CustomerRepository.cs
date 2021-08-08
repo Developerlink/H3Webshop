@@ -22,6 +22,11 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
+        public bool DeleteCustomersByPostalCode(int postalCodeID)
+        {
+            throw new NotImplementedException();
+        }
+
         public Customer GetCustomer(int customerId)
         {
             throw new NotImplementedException();

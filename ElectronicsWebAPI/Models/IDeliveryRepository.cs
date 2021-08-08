@@ -8,16 +8,17 @@ namespace ElectronicsWebAPI.Models
     public interface IDeliveryRepository
     {
         ICollection<Delivery> GetDeliveries();
-        bool DeliveryExists(int deliveryId);
-        Delivery GetDelivery(int deliveryId);
-        Delivery GetDeliveryFromSalesOrder(int salesOrderId);
         ICollection<Delivery> GetDeliveriesFromCustomer(int customerId);
         ICollection<Delivery> GetDeliveriesFromPostalCode(int postalCodeId);
+        bool DeliveryExists(int salesOrderId, int customerId, int postalCodeId);
+        Delivery GetDeliveryFromSalesOrder(int salesOrderId);
 
 
         bool CreateDelivery(Delivery delivery);
         bool UpdateDelivery(Delivery delivery);
-        bool DeleteDelivery(Delivery delivery);
+        bool DeleteDeliveriesByCustomer(int customerId);
+        bool DeleteDeliveriesByPostalCode(int postalCodeId);
+        bool DeleteDeliveryBySalesOrder(int salesOrderId);
         bool Save();
     }
 }

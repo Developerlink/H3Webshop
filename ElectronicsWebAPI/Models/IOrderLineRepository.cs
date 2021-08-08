@@ -16,7 +16,9 @@ namespace ElectronicsWebAPI.Models
 
         bool CreateOrderLine(OrderLine orderLine);
         bool UpdateOrderLine(OrderLine orderLine);
-        bool DeleteOrderLine(OrderLine orderLine);
+        bool DeleteOrderLinesBySalesOrder(int salesOrderId);
+        bool DeleteOrderLinesByProduct(int productId);
+        bool DeleteOrderLine(int salesOrderId, int productId);
         bool Save();
     }
 }

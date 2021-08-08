@@ -17,6 +17,16 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
+        public bool DeleteEmployeesByDepartment(int departmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteEmployeesByPostalCode(int postalCodeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool EmployeeExists(int employeeId)
         {
             throw new NotImplementedException();

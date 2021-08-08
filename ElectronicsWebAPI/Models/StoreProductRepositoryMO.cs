@@ -12,7 +12,17 @@ namespace ElectronicsWebAPI.Models
             throw new NotImplementedException();
         }
 
-        public bool DeleteStoreProduct(StoreProduct storeProduct)
+        public bool DeleteStoreProduct(int storeId, int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteStoreProductByProduct(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteStoreProductsByStore(int storeId)
         {
             throw new NotImplementedException();
         }
