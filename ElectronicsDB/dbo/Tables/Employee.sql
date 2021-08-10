@@ -10,6 +10,6 @@
  WorkEndDate datetime,
  IsActive bit not null,
  Address nvarchar(100) not null,
- foreign key (PostalCodeId) references PostalCode(PostalCodeID),
+ foreign key (PostalCodeId) references PostalCode(PostalCodeId),
  foreign key (DepartmentId) references Department(Id)
 );

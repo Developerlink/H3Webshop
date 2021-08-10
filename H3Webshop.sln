@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlFiles", "SqlFiles", "{A0
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ElectronicsDB", "ElectronicsDB\ElectronicsDB.sqlproj", "{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsModel.Library", "ElectronicsModel.Library\ElectronicsModel.Library.csproj", "{9EB588A4-010C-435C-ABBA-D1A17AD89C43}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsORM.Library", "ElectronicsORM.Library\ElectronicsORM.Library.csproj", "{05DDEDAC-F28B-444B-9509-49373C6E74A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9EB588A4-010C-435C-ABBA-D1A17AD89C43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB588A4-010C-435C-ABBA-D1A17AD89C43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB588A4-010C-435C-ABBA-D1A17AD89C43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB588A4-010C-435C-ABBA-D1A17AD89C43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DDEDAC-F28B-444B-9509-49373C6E74A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DDEDAC-F28B-444B-9509-49373C6E74A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DDEDAC-F28B-444B-9509-49373C6E74A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DDEDAC-F28B-444B-9509-49373C6E74A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

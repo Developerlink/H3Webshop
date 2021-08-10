@@ -54,6 +54,10 @@ namespace ElectronicsWebAPI
 
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
