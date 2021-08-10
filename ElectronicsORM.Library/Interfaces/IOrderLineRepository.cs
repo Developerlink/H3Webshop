@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectronicsORM.Library.Interfaces
 {
-    interface IOrderLineRepository
+    public interface IOrderLineRepository
     {
         ICollection<OrderLine> GetOrderLines();
         ICollection<OrderLine> GetOrderLinesFromSalesOrder(int salesOrderId);

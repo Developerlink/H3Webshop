@@ -34,12 +34,7 @@ namespace ElectronicsORM.Library.Repositories.EF
             throw new NotImplementedException();
         }
 
-        public Customer GetCustomerFromDelivery(int deliveryId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Customer GetCustomerFromSalesOrderDelivery(int salesOrderId)
+        public Customer GetCustomerFromSalesOrder(int salesOrderId)
         {
             throw new NotImplementedException();
         }

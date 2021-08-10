@@ -1,4 +1,5 @@
-﻿using ElectronicsORM.Library.Interfaces;
+﻿using ElectronicsModel.Library.Models;
+using ElectronicsORM.Library.Interfaces;
 using ElectronicsORM.Library.Repositories.MO;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,11 +17,37 @@ namespace ElectronicsWebAPI.Controllers
         public string Get()
         {
             ICustomerRepository customerRepository = new CustomerRepositoryMO();
-            var customer = customerRepository.GetCustomer(6);
+            int id = 6;
 
-            return $"The api server is running..." +
-                $"\nGetting data:" +
-                $"\nId: {customer.Id} Name: {customer.FirstName} {customer.LastName}";
+            int salesOrderId = 1;
+
+            if (customerRepository.CustomerExists(id))
+            {
+                var customer = customerRepository.GetCustomer(id);
+                var customer2 = customerRepository.GetCustomerFromSalesOrder(salesOrderId);
+                var newCustomer = new Customer()
+                {
+                    FirstName = "Link",
+                    LastName = "Kokiri",
+                    PostalCodeId = 5000,
+                    Address = "Forrest Road 11",
+                    EmailAddress = "Link@mail6.com",
+                    PhoneNumber = "12345678"
+                };
+                customerRepository.CreateCustomer(newCustomer);
+
+                return $"The api server is running..." +
+                    $"\nCustomer from looing up Id: " +
+                    $"\nID: {customer.Id} Name: {customer.FirstName} {customer.LastName}" +
+                    $"\nCustomer from looking up SalesOrderId: " + 
+                    $"\nID: {customer2.Id} Name: {customer2.FirstName} {customer2.LastName}" +
+                    $"\nInserted customer: " +
+                    $"\nID: {newCustomer.Id} Name: {newCustomer.FirstName} {newCustomer.LastName}";
+            }
+            else
+            {
+                return $"The customer with ID: {id} does not exist";
+            }
         }
     }
 }

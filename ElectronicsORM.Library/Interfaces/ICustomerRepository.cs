@@ -11,7 +11,7 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<Customer> GetCustomers();
         bool CustomerExists(int customerId);
         Customer GetCustomer(int customerId);
-        Customer GetCustomerFromSalesOrderDelivery(int salesOrderId);
+        Customer GetCustomerFromSalesOrder(int salesOrderId);
         ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId);
 
 
