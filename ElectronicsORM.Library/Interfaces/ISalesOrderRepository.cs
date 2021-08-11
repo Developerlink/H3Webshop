@@ -15,7 +15,6 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<SalesOrder> GetSalesOrdersFromProduct(int productId);
         bool SalesOrderExists(int salesOrderId);
         SalesOrder GetSalesOrder(int salesOrderId);
-        SalesOrder GetSalesOrderFromDelivery(int deliveryId);
 
 
         bool CreateSalesOrder(SalesOrder salesOrder);

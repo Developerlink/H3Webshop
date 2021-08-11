@@ -21,42 +21,254 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool CreateOrderLine(OrderLine orderLine)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO [dbo].[OrderLine] ([SalesOrderId],[ProductId],[Price],[Quantity]) " +
+            "VALUES (@SalesOrderId, @ProductId, @Price, @Quantity) ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", orderLine.SalesOrderId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", orderLine.ProductId));
+            cmd.Parameters.Add(new SqlParameter("@Price", orderLine.Price));
+            cmd.Parameters.Add(new SqlParameter("@Quantity", orderLine.Quantity));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteOrderLine(int salesOrderId, int productId)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM OrderLine WHERE SalesOrderId=@SalesOrderId AND ProductId=@ProductId ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", salesOrderId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", productId));
+
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteOrderLinesByProduct(int productId)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM OrderLine WHERE ProductId=@ProductId ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@ProductId", productId));
+
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteOrderLinesBySalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM OrderLine WHERE SalesOrderId=@SalesOrderId ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", salesOrderId));
+
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public OrderLine GetOrderLine(int salesOrderId, int productId)
         {
-            throw new NotImplementedException();
+            OrderLine orderLine = null;
+
+            string query = "SELECT [SalesOrderId],[ProductId],[Price],[Quantity] FROM[dbo].[OrderLine] WHERE SalesOrderId=@SalesOrderId AND ProductId=@ProductId ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", salesOrderId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", productId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                while (reader.Read())
+                {
+                    orderLine = new OrderLine()
+                    {
+                        SalesOrderId = salesOrderId,
+                        ProductId = productId,
+                        Price = reader.GetDecimal(2),
+                        Quantity = reader.GetInt16(3)
+                    };
+                }
+                reader.Close();
+            }
+            return orderLine;
         }
 
         public ICollection<OrderLine> GetOrderLines()
         {
-            throw new NotImplementedException();
+            var orderLines = new List<OrderLine>();
+
+            string query = "SELECT [SalesOrderId],[ProductId],[Price],[Quantity] FROM[dbo].[OrderLine] ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                while (reader.Read())
+                {
+                    var orderLine = new OrderLine()
+                    {
+                        SalesOrderId = reader.GetInt32(0),
+                        ProductId = reader.GetInt32(1),
+                        Price = reader.GetDecimal(2),
+                        Quantity = reader.GetInt16(3)
+                    };
+                    orderLines.Add(orderLine);
+                }
+                reader.Close();
+            }
+            return orderLines;
         }
 
         public ICollection<OrderLine> GetOrderLinesFromProduct(int productId)
         {
-            throw new NotImplementedException();
+            var orderLines = new List<OrderLine>();
+
+            string query = "SELECT [SalesOrderId],[ProductId],[Price],[Quantity] FROM[dbo].[OrderLine] WHERE ProductId=@ProductId ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@ProductId", productId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                while (reader.Read())
+                {
+                    var orderLine = new OrderLine()
+                    {
+                        SalesOrderId = reader.GetInt32(0),
+                        ProductId = reader.GetInt32(1),
+                        Price = reader.GetDecimal(2),
+                        Quantity = reader.GetInt16(3)
+                    };
+                    orderLines.Add(orderLine);
+                }
+                reader.Close();
+            }
+            return orderLines;
         }
 
         public ICollection<OrderLine> GetOrderLinesFromSalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
+            var orderLines = new List<OrderLine>();
+
+            string query = "SELECT [SalesOrderId],[ProductId],[Price],[Quantity] FROM[dbo].[OrderLine] WHERE SalesOrderId=@SalesOrderId ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", salesOrderId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                while (reader.Read())
+                {
+                    var orderLine = new OrderLine()
+                    {
+                        SalesOrderId = reader.GetInt32(0),
+                        ProductId = reader.GetInt32(1),
+                        Price = reader.GetDecimal(2),
+                        Quantity = reader.GetInt16(3)
+                    };
+                    orderLines.Add(orderLine);
+                }
+                reader.Close();
+            }
+            return orderLines;
         }
 
         public bool OrderLineExists(int salesOrderId, int productId)
@@ -94,14 +306,37 @@ namespace ElectronicsORM.Library.Repositories.MO
             return result;
         }
 
-        public bool Save()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool UpdateOrderLine(OrderLine orderLine)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE [dbo].[OrderLine]SET" +
+                "[Price] = @Price" +
+                ",[Quantity] = @Quantity " +
+                 "WHERE SalesOrderId=@SalesOrderId AND ProductId=@ProductId ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", orderLine.SalesOrderId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", orderLine.ProductId));
+            cmd.Parameters.Add(new SqlParameter("@Price", orderLine.Price));
+            cmd.Parameters.Add(new SqlParameter("@Quantity", orderLine.Quantity));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
     }
 }
