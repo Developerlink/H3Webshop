@@ -31,7 +31,7 @@ namespace ElectronicsWebAPI.Controllers
                     LastName = "Kokiri",
                     PostalCodeId = 5000,
                     Address = "Forrest Road 11",
-                    EmailAddress = "Link@mail6.com",
+                    EmailAddress = "Link@mail7.com",
                     PhoneNumber = "12345678"
                 };
                 customerRepository.CreateCustomer(newCustomer);

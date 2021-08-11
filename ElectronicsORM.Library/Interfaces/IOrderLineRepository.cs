@@ -21,6 +21,5 @@ namespace ElectronicsORM.Library.Interfaces
         bool DeleteOrderLinesBySalesOrder(int salesOrderId);
         bool DeleteOrderLinesByProduct(int productId);
         bool DeleteOrderLine(int salesOrderId, int productId);
-        bool Save();
     }
 }

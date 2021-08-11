@@ -25,12 +25,12 @@ namespace ElectronicsORM.Library.Repositories.MO
                 "VALUES (@PostalCodeId, @FirstName, @LastName, @EmailAddress, @PhoneNumber, @Address) ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.AddWithValue("@PostalCodeId", customer.PostalCodeId);
-            cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
-            cmd.Parameters.AddWithValue("@LastName", customer.LastName);
-            cmd.Parameters.AddWithValue("@EmailAddress", customer.EmailAddress);
-            cmd.Parameters.AddWithValue("@PhoneNumber", customer.PhoneNumber);
-            cmd.Parameters.AddWithValue("@Address", customer.Address);
+            cmd.Parameters.Add(new SqlParameter("@PostalCodeId", customer.PostalCodeId));
+            cmd.Parameters.Add(new SqlParameter("@FirstName", customer.FirstName));
+            cmd.Parameters.Add(new SqlParameter("@LastName", customer.LastName));
+            cmd.Parameters.Add(new SqlParameter("@EmailAddress", customer.EmailAddress));
+            cmd.Parameters.Add(new SqlParameter("@PhoneNumber", customer.PhoneNumber));
+            cmd.Parameters.Add(new SqlParameter("@Address", customer.Address));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {
@@ -55,7 +55,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
             string query = "SELECT COUNT(1) FROM Customer WHERE Customer.Id=@Id ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.AddWithValue("@Id", customerId);
+            cmd.Parameters.Add(new SqlParameter("@Id", customerId));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {
@@ -87,12 +87,48 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool DeleteCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM Customer WHERE Customer.Id=@Id ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@Id", customerId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteCustomersByPostalCode(int postalCodeID)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM Customer WHERE Customer.PostalCodeId=@PostalCodeId ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@PostalCodeId", postalCodeID));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public Customer GetCustomer(int customerId)
@@ -101,7 +137,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
             string query = "SELECT PostalCodeId, FirstName, LastName, EmailAddress, PhoneNumber, Address FROM Customer WHERE Id = @Id";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.AddWithValue("@Id", customerId);
+            cmd.Parameters.Add(new SqlParameter("@Id", customerId));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {
@@ -134,7 +170,6 @@ namespace ElectronicsORM.Library.Repositories.MO
                 reader.Close();
                 if (i != 1) return null;
             }
-
             return customer;
         }
 
@@ -149,7 +184,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.AddWithValue("@Id", salesOrderId);
+            cmd.Parameters.Add(new SqlParameter("@Id", salesOrderId));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {
@@ -188,22 +223,122 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public ICollection<Customer> GetCustomers()
         {
-            throw new NotImplementedException();
+            var customers = new List<Customer>();
+
+            string query = "SELECT PostalCodeId, FirstName, LastName, EmailAddress, PhoneNumber, Address, Id FROM Customer ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                while (reader.Read())
+                {
+                    var customer = new Customer()
+                    {
+                        PostalCodeId = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        EmailAddress = reader.GetString(3),
+                        PhoneNumber = reader.GetString(4),
+                        Address = reader.GetString(5),
+                        Id = reader.GetInt32(6)
+                    };
+                    customers.Add(customer);
+                }
+                reader.Close();
+            }
+
+            return customers;
         }
 
         public ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId)
         {
-            throw new NotImplementedException();
-        }
+            var customers = new List<Customer>();
 
-        public bool Save()
-        {
-            throw new NotImplementedException();
+            string query = "SELECT Id, FirstName, LastName, EmailAddress, PhoneNumber, Address FROM Customer WHERE PostalCodeId=@PostalCodeId ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                while (reader.Read())
+                {
+                    var customer = new Customer()
+                    {
+                        PostalCodeId = postalCodeId,
+                        Id = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        EmailAddress = reader.GetString(3),
+                        PhoneNumber = reader.GetString(4),
+                        Address = reader.GetString(5),
+                    };
+                    customers.Add(customer);
+                }
+                reader.Close();
+            }
+
+            return customers;
         }
 
         public bool UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE Customer SET " +
+                "PostalCodeId = @PostalCodeId " +
+                ",FirstName = @FirstName " +
+                ",LastName = @LastName " +
+                ",EmailAddress = @EmailAddress " +
+                ",PhoneNumber = @PhoneNumber" +
+                ",Address = @Address " +
+                "WHERE Id=@Id ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@PostalCodeId", customer.PostalCodeId));
+            cmd.Parameters.Add(new SqlParameter("@FirstName", customer.FirstName));
+            cmd.Parameters.Add(new SqlParameter("@LastName", customer.LastName));
+            cmd.Parameters.Add(new SqlParameter("@EmailAddress", customer.EmailAddress));
+            cmd.Parameters.Add(new SqlParameter("@PhoneNumber", customer.PhoneNumber));
+            cmd.Parameters.Add(new SqlParameter("@Address", customer.Address));
+            cmd.Parameters.Add(new SqlParameter("@Id", customer.Id));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
     }
 }

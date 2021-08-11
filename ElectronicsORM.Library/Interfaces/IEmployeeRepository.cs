@@ -21,6 +21,5 @@ namespace ElectronicsORM.Library.Interfaces
         bool DeleteEmployee(int employeeId);
         bool DeleteEmployeesByDepartment(int departmentId);
         bool DeleteEmployeesByPostalCode(int postalCodeId);
-        bool Save();
     }
 }

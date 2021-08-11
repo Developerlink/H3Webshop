@@ -21,6 +21,5 @@ namespace ElectronicsORM.Library.Interfaces
         bool DeleteDeliveriesByCustomer(int customerId);
         bool DeleteDeliveriesByPostalCode(int postalCodeId);
         bool DeleteDeliveryBySalesOrder(int salesOrderId);
-        bool Save();
     }
 }

@@ -21,42 +21,106 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool CreateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
-        }
+            string query = "INSERT INTO [dbo].[Employee] ([PostalCodeId],[FirstName],[LastName],[EmailAddress],[PhoneNumber],[WorkStartDate],[WorkEndDate],[IsActive],[Address],[DepartmentId]) " +
+                "OUTPUT INSERTED.ID " +
+                "VALUES (@PostalCodeId, @FirstName, @LastName, @EmailAddress, @PhoneNumber, @WorkStartDate, @WorkEndDate, @IsActive, @Address, @DepartmentId) ";
+            
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@PostalCodeId", employee.PostalCodeId));
+            cmd.Parameters.Add(new SqlParameter("@FirstName", employee.FirstName));
+            cmd.Parameters.Add(new SqlParameter("@LastName", employee.LastName));
+            cmd.Parameters.Add(new SqlParameter("@EmailAddress", employee.EmailAddress));
+            cmd.Parameters.Add(new SqlParameter("@PhoneNumber", employee.PhoneNumber));
+            cmd.Parameters.Add(new SqlParameter("@WorkStartDate", employee.WorkStartDate));
+            cmd.Parameters.Add(new SqlParameter("@WorkEndDate", employee.WorkEndDate));
+            cmd.Parameters.Add(new SqlParameter("@IsActive", employee.IsActive));
+            cmd.Parameters.Add(new SqlParameter("@Address", employee.Address));
+            cmd.Parameters.Add(new SqlParameter("@DepartmentId", employee.DepartmentId));
 
-        public bool CreateOrderLine(OrderLine orderLine)
-        {
-            throw new NotImplementedException();
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    employee.Id = (int)cmd.ExecuteScalar();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteEmployee(int employeeId)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM Employee WHERE Employee.Id=@Id ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@Id", employeeId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteEmployeesByDepartment(int departmentId)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM Employee WHERE DepartmentId=@Id ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@Id", departmentId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool DeleteEmployeesByPostalCode(int postalCodeId)
         {
-            throw new NotImplementedException();
-        }
+            string query = "DELETE FROM Employee WHERE PostalCodeId=@Id ";
 
-        public bool DeleteOrderLine(int salesOrderId, int productId)
-        {
-            throw new NotImplementedException();
-        }
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@Id", postalCodeId));
 
-        public bool DeleteOrderLinesByProduct(int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteOrderLinesBySalesOrder(int salesOrderId)
-        {
-            throw new NotImplementedException();
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
 
         public bool EmployeeExists(int employeeId)
@@ -95,62 +159,240 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public Employee GetEmployee(int employeeId)
         {
-            throw new NotImplementedException();
+            Employee employee = null;
+
+            string query = "SELECT [PostalCodeId],[FirstName],[LastName],[EmailAddress],[PhoneNumber],[WorkStartDate],[WorkEndDate],[IsActive],[Address],[DepartmentId]" +
+                "FROM[dbo].[Employee] " +
+                "WHERE Id = @Id";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@Id", employeeId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int i = 0;
+                while (reader.Read())
+                {
+                    employee = new Employee()
+                    {
+                        Id = employeeId,
+                        PostalCodeId = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        EmailAddress = reader.GetString(3),
+                        PhoneNumber = reader.GetString(4),
+                        WorkStartDate = reader.GetDateTime(5),
+                        WorkEndDate = reader.GetDateTime(6),
+                        IsActive = reader.GetBoolean(7),
+                        Address = reader.GetString(8),
+                        DepartmentId = reader.GetInt32(9)
+                    };
+                    i++;
+                }
+                reader.Close();
+                if (i != 1) return null;
+            }
+            return employee;
         }
 
         public ICollection<Employee> GetEmployees()
         {
-            throw new NotImplementedException();
+            var employees = new List<Employee>();
+
+            string query = "SELECT [PostalCodeId],[FirstName],[LastName],[EmailAddress],[PhoneNumber],[WorkStartDate],[WorkEndDate],[IsActive],[Address],[DepartmentId],[Id]" +
+                "FROM[dbo].[Employee] ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                while (reader.Read())
+                {
+                    var employee = new Employee()
+                    {
+                        PostalCodeId = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        EmailAddress = reader.GetString(3),
+                        PhoneNumber = reader.GetString(4),
+                        WorkStartDate = reader.GetDateTime(5),
+                        WorkEndDate = reader.GetDateTime(6),
+                        IsActive = reader.GetBoolean(7),
+                        Address = reader.GetString(8),
+                        DepartmentId = reader.GetInt32(9),
+                        Id = reader.GetInt32(10)
+                    };
+                    employees.Add(employee);
+                }
+                reader.Close();
+            }
+            return employees;
         }
 
         public ICollection<Employee> GetEmployeesFromDepartment(int departmentId)
         {
-            throw new NotImplementedException();
+            var employees = new List<Employee>();
+
+            string query = "SELECT [PostalCodeId],[FirstName],[LastName],[EmailAddress],[PhoneNumber],[WorkStartDate],[WorkEndDate],[IsActive],[Address],[DepartmentId],[Id]" +
+                "FROM[dbo].[Employee] " +
+                "WHERE DepartmentId=@Id ";
+
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("Id", departmentId));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                while (reader.Read())
+                {
+                    var employee = new Employee()
+                    {
+                        PostalCodeId = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        EmailAddress = reader.GetString(3),
+                        PhoneNumber = reader.GetString(4),
+                        WorkStartDate = reader.GetDateTime(5),
+                        WorkEndDate = reader.GetDateTime(6),
+                        IsActive = reader.GetBoolean(7),
+                        Address = reader.GetString(8),
+                        DepartmentId = reader.GetInt32(9),
+                        Id = reader.GetInt32(10)
+                    };
+                    employees.Add(employee);
+                }
+                reader.Close();
+            }
+            return employees;
         }
 
         public ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeID)
         {
-            throw new NotImplementedException();
-        }
+            var employees = new List<Employee>();
 
-        public OrderLine GetOrderLine(int salesOrderId, int productId)
-        {
-            throw new NotImplementedException();
-        }
+            string query = "SELECT [PostalCodeId],[FirstName],[LastName],[EmailAddress],[PhoneNumber],[WorkStartDate],[WorkEndDate],[IsActive],[Address],[DepartmentId],[Id]" +
+                "FROM[dbo].[Employee] " +
+                "WHERE PostalCodeId=@Id ";
 
-        public ICollection<OrderLine> GetOrderLines()
-        {
-            throw new NotImplementedException();
-        }
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("Id", postalCodeID));
 
-        public ICollection<OrderLine> GetOrderLinesFromProduct(int productId)
-        {
-            throw new NotImplementedException();
-        }
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
 
-        public ICollection<OrderLine> GetOrderLinesFromSalesOrder(int salesOrderId)
-        {
-            throw new NotImplementedException();
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                while (reader.Read())
+                {
+                    var employee = new Employee()
+                    {
+                        PostalCodeId = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        EmailAddress = reader.GetString(3),
+                        PhoneNumber = reader.GetString(4),
+                        WorkStartDate = reader.GetDateTime(5),
+                        WorkEndDate = reader.GetDateTime(6),
+                        IsActive = reader.GetBoolean(7),
+                        Address = reader.GetString(8),
+                        DepartmentId = reader.GetInt32(9),
+                        Id = reader.GetInt32(10)
+                    };
+                    employees.Add(employee);
+                }
+                reader.Close();
+            }
+            return employees;
         }
-
-        public bool OrderLineExists(int salesOrderId, int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Save()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public bool UpdateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
-        }
+            string query = "UPDATE Customer SET " +
+                "[PostalCodeId] = @PostalCodeId, " +
+                "[FirstName] = @FirstName, " +
+                ",[LastName] = @LastName, " +
+                ",[EmailAddress] = @EmailAddress, " +
+                ",[PhoneNumber] = @PhoneNumber, " +
+                ",[WorkStartDate] = @WorkStartDate, " +
+                ",[WorkEndDate] = @WorkEndDate, " +
+                ",[IsActive] = @IsActive, " +
+                ",[Address] = @Address, " +
+                ",[DepartmentId] = @DepartmentId, " +
+                "WHERE Id=@Id";
 
-        public bool UpdateOrderLine(OrderLine orderLine)
-        {
-            throw new NotImplementedException();
+             SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@PostalCodeId", employee.PostalCodeId));
+            cmd.Parameters.Add(new SqlParameter("@FirstName", employee.FirstName));
+            cmd.Parameters.Add(new SqlParameter("@LastName", employee.LastName));
+            cmd.Parameters.Add(new SqlParameter("@EmailAddress", employee.EmailAddress));
+            cmd.Parameters.Add(new SqlParameter("@PhoneNumber", employee.PhoneNumber));
+            cmd.Parameters.Add(new SqlParameter("@WorkStartDate", employee.WorkStartDate));
+            cmd.Parameters.Add(new SqlParameter("@WorkEndDate", employee.WorkEndDate));
+            cmd.Parameters.Add(new SqlParameter("@IsActive", employee.IsActive));
+            cmd.Parameters.Add(new SqlParameter("@Address", employee.Address));
+            cmd.Parameters.Add(new SqlParameter("@DepartmentId", employee.DepartmentId));
+            cmd.Parameters.Add(new SqlParameter("@Id", employee.Id));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return false;
         }
     }
+    
 }
