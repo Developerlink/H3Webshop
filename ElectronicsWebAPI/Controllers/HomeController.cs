@@ -31,18 +31,27 @@ namespace ElectronicsWebAPI.Controllers
                     LastName = "Kokiri",
                     PostalCodeId = 5000,
                     Address = "Forrest Road 11",
-                    EmailAddress = "Link@mail7.com",
+                    EmailAddress = "Link@mail.com",
                     PhoneNumber = "12345678"
                 };
                 customerRepository.CreateCustomer(newCustomer);
+                newCustomer.FirstName = "Zelda";
+                newCustomer.EmailAddress = "zelda@mail.com";
+                newCustomer.PhoneNumber = "99887766";
+                customerRepository.UpdateCustomer(newCustomer);
+
+                customerRepository.DeleteCustomer(newCustomer.Id);
 
                 return $"The api server is running..." +
-                    $"\nCustomer from looing up Id: " +
+                    $"\nCustomer from looking up Id: " +
                     $"\nID: {customer.Id} Name: {customer.FirstName} {customer.LastName}" +
-                    $"\nCustomer from looking up SalesOrderId: " + 
+                    $"\nCustomer from looking up SalesOrderId: " +
                     $"\nID: {customer2.Id} Name: {customer2.FirstName} {customer2.LastName}" +
                     $"\nInserted customer: " +
-                    $"\nID: {newCustomer.Id} Name: {newCustomer.FirstName} {newCustomer.LastName}";
+                    $"\nID: {newCustomer.Id} Name: {newCustomer.FirstName} {newCustomer.LastName}" +
+                    $"\nAttempting to delete customer with id: {newCustomer.Id} " +
+                    $"\nWhen asking the db if the customer with id {newCustomer.Id} exists the answer is now: {customerRepository.CustomerExists(newCustomer.Id)} " +
+                    $"";
             }
             else
             {

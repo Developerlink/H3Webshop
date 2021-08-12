@@ -45,6 +45,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -68,6 +70,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -91,6 +95,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -114,6 +120,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -306,6 +314,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return delivery;
         }
 
@@ -342,6 +352,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
     }

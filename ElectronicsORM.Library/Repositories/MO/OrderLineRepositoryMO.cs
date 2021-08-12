@@ -44,6 +44,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -69,6 +71,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -93,6 +97,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -102,7 +108,6 @@ namespace ElectronicsORM.Library.Repositories.MO
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
             cmd.Parameters.Add(new SqlParameter("@SalesOrderId", salesOrderId));
-
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {
@@ -117,6 +122,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
 
@@ -336,6 +343,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
             }
+            _dbConn.Close();
+
             return false;
         }
     }

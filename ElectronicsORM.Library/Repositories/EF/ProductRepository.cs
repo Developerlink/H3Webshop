@@ -30,17 +30,17 @@ namespace ElectronicsORM.Library.Repositories.EF
             throw new NotImplementedException();
         }
 
-        public Product GetProductFromOrderLine(int productId)
-        {
-            throw new NotImplementedException();
-        }
-
         public ICollection<Product> GetProducts()
         {
             throw new NotImplementedException();
         }
 
         public ICollection<Product> GetProductsFromProductType(int productTypeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollection<Product> GetProductsFromSalesOrder(int salesOrderId)
         {
             throw new NotImplementedException();
         }
@@ -55,15 +55,9 @@ namespace ElectronicsORM.Library.Repositories.EF
             throw new NotImplementedException();
         }
 
-        public bool Save()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool UpdateProduct(Product product)
         {
             throw new NotImplementedException();
         }
-
     }
 }
