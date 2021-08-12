@@ -11,8 +11,8 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<StoreProduct> GetStoreProducts();
         ICollection<StoreProduct> GetStoreProductsFromProduct(int productId);
         ICollection<StoreProduct> GetStoreProductsFromStore(int storeId);
-        bool StoreProductExists(int storeId, int productId);
         StoreProduct GetStoreProduct(int storeId, int productId);
+        bool StoreProductExists(int storeId, int productId);
 
 
         bool CreateStoreProduct(StoreProduct storeProduct);

@@ -9,10 +9,10 @@ namespace ElectronicsORM.Library.Interfaces
     public interface ICustomerRepository
     {
         ICollection<Customer> GetCustomers();
-        bool CustomerExists(int customerId);
+        ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId);
         Customer GetCustomer(int customerId);
         Customer GetCustomerFromSalesOrder(int salesOrderId);
-        ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId);
+        bool CustomerExists(int customerId);
 
 
         bool CreateCustomer(Customer customer);

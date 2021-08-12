@@ -13,8 +13,8 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<SalesOrder> GetSalesOrdersFromOrderStatus(int orderStatusId);
         ICollection<SalesOrder> GetSalesOrdersFromStore(int storeId);
         ICollection<SalesOrder> GetSalesOrdersFromProduct(int productId);
-        bool SalesOrderExists(int salesOrderId);
         SalesOrder GetSalesOrder(int salesOrderId);
+        bool SalesOrderExists(int salesOrderId);
 
 
         bool CreateSalesOrder(SalesOrder salesOrder);

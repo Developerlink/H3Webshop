@@ -12,8 +12,8 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<OrderLine> GetOrderLines();
         ICollection<OrderLine> GetOrderLinesFromSalesOrder(int salesOrderId);
         ICollection<OrderLine> GetOrderLinesFromProduct(int productId);
-        bool OrderLineExists(int salesOrderId, int productId);
         OrderLine GetOrderLine(int salesOrderId, int productId);
+        bool OrderLineExists(int salesOrderId, int productId);
 
 
         bool CreateOrderLine(OrderLine orderLine);

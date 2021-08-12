@@ -10,10 +10,10 @@ namespace ElectronicsORM.Library.Interfaces
     public interface IEmployeeRepository
     {
         ICollection<Employee> GetEmployees();
-        bool EmployeeExists(int employeeId);
-        Employee GetEmployee(int employeeId);
         ICollection<Employee> GetEmployeesFromDepartment(int departmentId);
         ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeID);
+        Employee GetEmployee(int employeeId);
+        bool EmployeeExists(int employeeId);
 
 
         bool CreateEmployee(Employee employee);

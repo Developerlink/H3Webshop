@@ -10,11 +10,11 @@ namespace ElectronicsORM.Library.Interfaces
     public interface IProductRepository
     {
         ICollection<Product> GetProducts();
-        bool ProductExists(int productId);
-        Product GetProduct(int productId);
         ICollection<Product> GetProductsFromStore(int storeId);
         ICollection<Product> GetProductsFromSalesOrder(int salesOrderId);
         ICollection<Product> GetProductsFromProductType(int productTypeId);
+        Product GetProduct(int productId);
+        bool ProductExists(int productId);
 
 
         bool CreateProduct(Product product);
