@@ -14,5 +14,11 @@ namespace ElectronicsModel.Library.Models
 
         public virtual Store Store { get; set; }
         public virtual Product Product { get; set; }
+
+        public StoreProduct()
+        {
+            Store = new Store();
+            Product = new Product();
+        }
     }
 }

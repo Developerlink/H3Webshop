@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ElectronicsWebAPI.Models
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
+namespace ElectronicsModel.Library
 {
-    public class Product
+    public partial class Product
     {
         public int Id { get; set; }
         public int ProductTypeId { get; set; }
@@ -13,9 +15,6 @@ namespace ElectronicsWebAPI.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
 
-
         public virtual ProductType ProductType { get; set; }
-        public virtual ICollection<StoreProduct> StoreProducts { get; set; }
-        public virtual ICollection<OrderLine> OrderLines { get; set; }
     }
 }

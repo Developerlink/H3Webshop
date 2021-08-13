@@ -14,5 +14,10 @@ namespace ElectronicsModel.Library.Models
 
         public virtual Store Store { get; set; }
         public virtual ICollection<Employee> Employess { get; set; }
+
+        public Department()
+        {
+            Store = new Store();
+        }
     }
 }

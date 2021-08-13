@@ -18,5 +18,10 @@ namespace ElectronicsModel.Library.Models
 
         public virtual ICollection<Delivery> Deliveries { get; set; }
         public virtual PostalCode PostalCode { get; set; }
+
+        public Customer()
+        {
+            PostalCode = new PostalCode();
+        }
     }
 }

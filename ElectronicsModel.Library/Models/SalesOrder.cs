@@ -16,5 +16,11 @@ namespace ElectronicsModel.Library.Models
         public virtual Store Store { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual ICollection<OrderLine> OrderLines { get; set; }
+
+        public SalesOrder()
+        {
+            Store = new Store();
+            OrderStatus = new OrderStatus();
+        }
     }
 }

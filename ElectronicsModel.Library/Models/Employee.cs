@@ -22,5 +22,11 @@ namespace ElectronicsModel.Library.Models
 
         public virtual Department Department { get; set; }
         public virtual PostalCode PostalCode { get; set; }
+
+        public Employee()
+        {
+            Department = new Department();
+            PostalCode = new PostalCode();
+        }
     }
 }
