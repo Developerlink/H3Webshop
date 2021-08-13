@@ -61,6 +61,7 @@
     <Folder Include="dbo\Views" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="PublishLocations" />
+    <Folder Include="dbo\Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\PostalCode.sql" />
@@ -76,6 +77,7 @@
     <Build Include="dbo\Tables\OrderLine.sql" />
     <Build Include="dbo\Tables\Delivery.sql" />
     <Build Include="dbo\Stored Procedures\Test.sql" />
+    <PostDeploy Include="dbo\Scripts\Script.PostDeployment1.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\ElectronicsDB.publish.xml" />

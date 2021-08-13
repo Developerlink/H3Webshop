@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsWebAPI", "ElectronicsWebAPI\ElectronicsWebAPI.csproj", "{EC954FA2-4F17-486E-B5F0-D7A738330BBE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlFiles", "SqlFiles", "{A001399F-C5FE-4EEA-AD13-C357F04FC337}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{A001399F-C5FE-4EEA-AD13-C357F04FC337}"
 	ProjectSection(SolutionItems) = preProject
 		SqlFiles\electronicsdb_available_key_range.txt = SqlFiles\electronicsdb_available_key_range.txt
 		SqlFiles\H3_sql_alle.sql = SqlFiles\H3_sql_alle.sql

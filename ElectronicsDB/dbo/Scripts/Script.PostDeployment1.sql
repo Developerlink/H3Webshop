@@ -1,143 +1,14 @@
-CREATE DATABASE ElectronicsDB
-
-CREATE TABLE OrderStatus (
- Id int primary key identity(1,1) not null,
- Name nvarchar(50) unique not null
-);
-
-CREATE TABLE ProductType (
- Id int primary key identity(1,1) not null,
- Name nvarchar(150) unique not null
-);
-
-CREATE TABLE PostalCode (
- PostalCodeId int primary key identity(1,1) not null,
- AreaName nvarchar(50) not null
-);
-
-
-
-CREATE TABLE Customer (
- Id int primary key identity(1,1) not null,
- PostalCodeId int not null,
- FirstName nvarchar(50) not null,
- LastName nvarchar(50) not null,
- EmailAddress nvarchar(150) unique not null,
- PhoneNumber nvarchar(50) not null,
- Address nvarchar(100) not null
- foreign key (PostalCodeId) references PostalCode(PostalCodeId)
-);
-
-CREATE TABLE Product (
- Id int primary key identity(1,1) not null,
- ProductTypeId int not null,
- Name nvarchar(255) not null,
- Description text,
- Price decimal not null,
- CreateDate datetime2 default getdate(),
- EditDate datetime2,
- foreign key (ProductTypeId) references ProductType(Id)
-);
-
-CREATE TABLE Store (
- Id int primary key identity(1,1) not null,
- PostalCodeId int not null,
- Address nvarchar(100) not null,
- Name nvarchar(100) not null,
- foreign key(PostalCodeId) references PostalCode(PostalCodeId)
-);
-
-
-
-CREATE TABLE Department (
- Id int primary key identity(1,1) not null,
- StoreId int not null,
- Name nvarchar(50) not null,
- foreign key (StoreId) references Store(Id)
-);
-
-CREATE TABLE Employee (
- Id int primary key identity(1,1) not null,
- PostalCodeId int not null,
- DepartmentId int not null,
- FirstName nvarchar(50) not null,
- LastName nvarchar(50) not null,
- EmailAddress nvarchar(150) unique not null,
- PhoneNumber nvarchar(50) not null,
- WorkStartDate datetime,
- WorkEndDate datetime,
- IsActive bit not null,
- Address nvarchar(100) not null,
- foreign key (PostalCodeId) references PostalCode(PostalCodeID),
- foreign key (DepartmentId) references Department(Id)
-);
-
-CREATE TABLE StoreProduct (
- StoreId int not null,
- ProductId int not null,
- Quantity int not null,
- foreign key (StoreId) references Store(Id),
- foreign key (ProductId) references Product(Id),
- primary key(StoreId, ProductId)
-);
-
-
-
-CREATE TABLE SalesOrder (
- Id int primary key identity(1,1) not null,
- StoreId int,
- OrderStatusId int,
- OrderDate datetime2,
- foreign key(StoreId) references Store(Id),
- foreign key(OrderStatusId) references OrderStatus(Id)
-);
-
-CREATE TABLE OrderLine (
- SalesOrderId int not null,
- ProductId int not null,
- Price decimal,
- Quantity smallint,
- foreign key (SalesOrderId) references SalesOrder(Id),
- foreign key (ProductId) references Product(Id),
- primary key(SalesOrderId, ProductId)
-);
-
-CREATE TABLE Delivery (
- SalesOrderId int not null,
- CustomerId int not null,
- PostalCodeId int not null,
- Address nvarchar(100),
- SendDate datetime2,
- foreign key (SalesOrderId) references SalesOrder(Id),
- foreign key (PostalCodeId) references PostalCode(PostalCodeId),
- foreign key (CustomerId) references Customer(Id),
- primary key(SalesOrderId, CustomerId, PostalCodeId)
-);
-
-alter table delivery
-add constraint pk_myConstraint primary key(SalesOrderId, CustomerId, PostalCodeId)
-
-alter table StoreProduct
-add constraint pk_myConstraint primary key(StoreId, ProductId)
-
-alter table OrderLine
-add constraint pk_myConstraint  primary key(SalesOrderId, ProductId)
-
-alter table delivery
-add CustomerId int not null,
-foreign key (CustomerId) references Customer(Id)
-
-alter table salesorder
-add StoreId int not null,
-foreign key (StoreId) references Store(Id)
-
-alter table salesorder
-drop constraint [FK__SalesOrde__Custo__412EB0B6]
-
-alter table salesorder
-drop column CustomerId
-
-
+ï»¿/*
+Post-Deployment Script Template							
+--------------------------------------------------------------------------------------
+ This file contains SQL statements that will be appended to the build script.		
+ Use SQLCMD syntax to include a file in the post-deployment script.			
+ Example:      :r .\myfile.sql								
+ Use SQLCMD syntax to reference a variable in the post-deployment script.		
+ Example:      :setvar TableName MyTable							
+               SELECT * FROM [$(TableName)]					
+--------------------------------------------------------------------------------------
+*/
 use ElectronicsDB;
 
 insert into OrderStatus 
@@ -224,26 +95,26 @@ Values
 
 INSERT INTO Product([ProductTypeId],[Name],[Description],[Price]) 
 VALUES
-(1,'IdeaPad Gaming 3i','Få den bedste spil- og esportsoplevelse med en pc, dine gamingvenner vil se langt efter. Den bærbare IdeaPad Gaming 3i-computer, der er udviklet med op til banebrydende 10. generation Intel® Core™ i7-processor, dedikeret NVIDIA®-grafik, op til 120 Hz FHD-skærm og et avanceret gamingtastatur, udstråler stille og skræmmende selvsikkerhed. Nyd tydelige billeder og glidende gaming på din vej til magten.',4088),
-(1,'Vision W915 Workstation','Vision Workstation W915 er en stærk arbejdscomputer, der kan bruges til en meget bred vifte af professionelle opgaver. Uanset om du skal bruge en computer til musikproduktion, krævende kontoropgaver eller lettere billedredigering, er Vision Workstation W915 et rigtig godt valg.',6614),
-(1,'Føniks Falcon III','Kraftfulde gaming monstre. Så simpelt kan vi beskrive Føniks Falcon Gamer serien. Der er fuld smæk på ydelsen, for Falcon maskinerne er designet til de seriøse gamere, der bruger rigtig mange timer foran skærmen - måske endda på konkurrence-niveau. Der er fokus på maksimal ydelse pr. krone, så du får den mest flydende oplevelse og de bedste odds for at vinde hver eneste kamp.',4861),
+(1,'IdeaPad Gaming 3i','FÃ¥ den bedste spil- og esportsoplevelse med en pc, dine gamingvenner vil se langt efter. Den bÃ¦rbare IdeaPad Gaming 3i-computer, der er udviklet med op til banebrydende 10. generation IntelÂ® Coreâ„¢ i7-processor, dedikeret NVIDIAÂ®-grafik, op til 120 Hz FHD-skÃ¦rm og et avanceret gamingtastatur, udstrÃ¥ler stille og skrÃ¦mmende selvsikkerhed. Nyd tydelige billeder og glidende gaming pÃ¥ din vej til magten.',4088),
+(1,'Vision W915 Workstation','Vision Workstation W915 er en stÃ¦rk arbejdscomputer, der kan bruges til en meget bred vifte af professionelle opgaver. Uanset om du skal bruge en computer til musikproduktion, krÃ¦vende kontoropgaver eller lettere billedredigering, er Vision Workstation W915 et rigtig godt valg.',6614),
+(1,'FÃ¸niks Falcon III','Kraftfulde gaming monstre. SÃ¥ simpelt kan vi beskrive FÃ¸niks Falcon Gamer serien. Der er fuld smÃ¦k pÃ¥ ydelsen, for Falcon maskinerne er designet til de seriÃ¸se gamere, der bruger rigtig mange timer foran skÃ¦rmen - mÃ¥ske endda pÃ¥ konkurrence-niveau. Der er fokus pÃ¥ maksimal ydelse pr. krone, sÃ¥ du fÃ¥r den mest flydende oplevelse og de bedste odds for at vinde hver eneste kamp.',4861),
 (1,'ACER ASPIRE XC-330','Aspire XC har et sofistikeret design og kraftig hardware til effektiv multitasking i hverdagen.',6488),
-(1,'Vision Esport Ryzen','Vision Esport serien er målrettet foreninger, klubber, netcafeer og skoler med fokus på Esport. MM-Vision har siden 1999 været førende i Danmark indenfor sammensætning og produktion af computere. Vi er idag Danmarks største producent af computere. Sammen med anerkendte producenter som Asus og Corsair har vi udviklet dette esportskoncept.',8157),
-(3,'SAMSUNG 82" UHD TV UE82TU8005','Ambient Mode – Lad dit TV smelte ind i din indretning, så du også kan nyde det slukketAuto Game Mode - Skifter automatisk over til hurtig gamingindstilling, når du bruger din spillekonsolOne Remote Control – En smartere fjernbetjening, som kan styre alle dine kompatible enheder',16930),
+(1,'Vision Esport Ryzen','Vision Esport serien er mÃ¥lrettet foreninger, klubber, netcafeer og skoler med fokus pÃ¥ Esport. MM-Vision har siden 1999 vÃ¦ret fÃ¸rende i Danmark indenfor sammensÃ¦tning og produktion af computere. Vi er idag Danmarks stÃ¸rste producent af computere. Sammen med anerkendte producenter som Asus og Corsair har vi udviklet dette esportskoncept.',8157),
+(3,'SAMSUNG 82" UHD TV UE82TU8005','Ambient Mode â€“ Lad dit TV smelte ind i din indretning, sÃ¥ du ogsÃ¥ kan nyde det slukketAuto Game Mode - Skifter automatisk over til hurtig gamingindstilling, nÃ¥r du bruger din spillekonsolOne Remote Control â€“ En smartere fjernbetjening, som kan styre alle dine kompatible enheder',16930),
 (3,'Samsung 43" Q60A QLED','SAMSUNG QE43Q60A QLED smart TV er det ideelle valg, hvis du vil have imponerende specifikationer, uden at dit tv dominerer stuen',8382),
-(3,'LG 47" Full HD Signage monitor','Dette store 47” tv fra LG leverer billedet i formatforholdet på 16:9. Med en responstid på 11 millisekund, vil der ikke forekomme de store forsinkelser mellem billederne. Skærmen har en lysstyrke på hele 450 cd/m2, så du får det rette lys. LG 47LS35A-5B er designet specielt til alverdens forretningsmiljøer - Om det så er til lobbyen på hotellet, terminalen i lufthavnen eller som informationsskærm på kontoret.',7739),
-(3,'Philips 58PUS7805/12 58" 4K UHD LED Smart TV','Opdag helt nye dimensioner med Alexa og Ambilight. 4K HDR Smart LED-TV Føj nye dimensioner til din TV-oplevelse. Dette Philips Smart TV leveres med Alexa, så du kan styre det med din stemme. Ambilight sætter stemningen for film, musik eller spil. Billedkvaliteten er lige så fantastisk som det indhold, du ser.',14665),
-(3,'SHARP 50" UHD TV 50BL3EA','Google Assistant og Android Smart TV platform Med Android Smart TV får man indbygget Chromecast funktion i TVet som gør det let og caste fra en mobil eller tablet direkte til TVet. Google Assistant kobler dit TV sammen med alle andre Google produkter. Der er adgang til alle apps der kan findes på Google Play Store inklusiv Netflix, HBO Nordic, Youtube, Amazon Prime, TV2 Play og mange flere.',5788),
-(5,'Xiaomi Mi 11i 5G','Med Xiaomi Mi 11i 5G får du hele pakken. Du betaler bare kun for halvdelen af pakken. Xiaomi Mi 11i er nemlig alt det, du kan forvente af en moderne smartphone i flagskibsklassen. Prisen er bare en helt anden, end du er vant til.',5190),
-(5,'Blackview BV6300 Pro Grøn','Blackview BV6300 Pro er en vandtæt IP68-telefon med Android 10-operativsystem, 4380mAh batteri med lang levetid og desuden 4 bagkameraer. En af det mest anerkendte funktioner ved denne telefon, er dens slanke og kompakte design. Dette er en holdbar og robust telefon til dig, der ønsker en mobil, som ikke vejer for meget eller er for stor i hånden. Tykkelsen er kun 12,8 mm på den tykkeste del af telefonen, hvilket er ret tyndt i forhold til andre holdbare telefoner på markedet. Android 10 kombineret med et batteri på 4380 mAH giver Blackview BV6300 Pro en rigtig god levetid. De fire kameraer bagpå, sikrer billeder i høj kvalitet! Telefonen har også en del skarpe komponenter, der giver mulighed for nemt at køre de fleste tunge apps og programmer. For dem af jer, som ofte er på farten og kan lide at bruge telefonen til navigation, understøtter denne mobil også hele 3 forskellige positioneringsteknologier (GPS, GLONASS, Beidou). BV6300 Pro har også et 3,5 mm jackstik, som er noget, der efterhånden mangler på mange holdbare telefoner. Hvis du leder efter en kompakt og let telefon, kan Blackview BV6300 Pro varmt anbefales!',2983),
+(3,'LG 47" Full HD Signage monitor','Dette store 47â€ tv fra LG leverer billedet i formatforholdet pÃ¥ 16:9. Med en responstid pÃ¥ 11 millisekund, vil der ikke forekomme de store forsinkelser mellem billederne. SkÃ¦rmen har en lysstyrke pÃ¥ hele 450 cd/m2, sÃ¥ du fÃ¥r det rette lys. LG 47LS35A-5B er designet specielt til alverdens forretningsmiljÃ¸er - Om det sÃ¥ er til lobbyen pÃ¥ hotellet, terminalen i lufthavnen eller som informationsskÃ¦rm pÃ¥ kontoret.',7739),
+(3,'Philips 58PUS7805/12 58" 4K UHD LED Smart TV','Opdag helt nye dimensioner med Alexa og Ambilight. 4K HDR Smart LED-TV FÃ¸j nye dimensioner til din TV-oplevelse. Dette Philips Smart TV leveres med Alexa, sÃ¥ du kan styre det med din stemme. Ambilight sÃ¦tter stemningen for film, musik eller spil. Billedkvaliteten er lige sÃ¥ fantastisk som det indhold, du ser.',14665),
+(3,'SHARP 50" UHD TV 50BL3EA','Google Assistant og Android Smart TV platform Med Android Smart TV fÃ¥r man indbygget Chromecast funktion i TVet som gÃ¸r det let og caste fra en mobil eller tablet direkte til TVet. Google Assistant kobler dit TV sammen med alle andre Google produkter. Der er adgang til alle apps der kan findes pÃ¥ Google Play Store inklusiv Netflix, HBO Nordic, Youtube, Amazon Prime, TV2 Play og mange flere.',5788),
+(5,'Xiaomi Mi 11i 5G','Med Xiaomi Mi 11i 5G fÃ¥r du hele pakken. Du betaler bare kun for halvdelen af pakken. Xiaomi Mi 11i er nemlig alt det, du kan forvente af en moderne smartphone i flagskibsklassen. Prisen er bare en helt anden, end du er vant til.',5190),
+(5,'Blackview BV6300 Pro GrÃ¸n','Blackview BV6300 Pro er en vandtÃ¦t IP68-telefon med Android 10-operativsystem, 4380mAh batteri med lang levetid og desuden 4 bagkameraer. En af det mest anerkendte funktioner ved denne telefon, er dens slanke og kompakte design. Dette er en holdbar og robust telefon til dig, der Ã¸nsker en mobil, som ikke vejer for meget eller er for stor i hÃ¥nden. Tykkelsen er kun 12,8 mm pÃ¥ den tykkeste del af telefonen, hvilket er ret tyndt i forhold til andre holdbare telefoner pÃ¥ markedet. Android 10 kombineret med et batteri pÃ¥ 4380 mAH giver Blackview BV6300 Pro en rigtig god levetid. De fire kameraer bagpÃ¥, sikrer billeder i hÃ¸j kvalitet! Telefonen har ogsÃ¥ en del skarpe komponenter, der giver mulighed for nemt at kÃ¸re de fleste tunge apps og programmer. For dem af jer, som ofte er pÃ¥ farten og kan lide at bruge telefonen til navigation, understÃ¸tter denne mobil ogsÃ¥ hele 3 forskellige positioneringsteknologier (GPS, GLONASS, Beidou). BV6300 Pro har ogsÃ¥ et 3,5 mm jackstik, som er noget, der efterhÃ¥nden mangler pÃ¥ mange holdbare telefoner. Hvis du leder efter en kompakt og let telefon, kan Blackview BV6300 Pro varmt anbefales!',2983),
 (5,'Samsung Galaxy A52 5G 128GB/6GB - Black','On the next-generation mobile data network, the power of 5G fast speeds changes the way you experience and share content - from super-smooth gaming and streaming, to ultrafast sharing and downloading. Upgrade to the Galaxy A52 5G and speed up your smartphone experience.',3035),
-(5,'GOOGLE PIXEL 4A - 128GB - BARE SORT','Tag overdådige billeder med Google Pixel 4A. Det ikoniske design, de regelmæssige softwareopdateringer og den kraftfulde 12 MP sensor udgør den ideelle enhed. Telefonen kommer også med et fremragende batteri med hurtig opladningsteknologi, så du trygt kan bruge din telefon hele dagen.',3290),
-(5,'Apple iPhone 12, 128GB, sort','Apple iPhone 12 er fremstillet med en 6,1” Super Retina XDR-skærm fra kant til kant, der er omfavnet af stærke aluminiumskanter i flykvalitet, samt Ceramic Shield, der har fire gange bedre beskyttelse, hvis du taber din telefon. Med det dobbelt­kamera-system med ultravidvinkel kan du indfange mere af alt det, du godt kan lide. Tag billeder i vidvinkel og ultravidvinkel. Optag og redigér video i den højeste kvalitet i en smartphone. iPhone 12 optager fantastisk skarp 4K-video med 60 billeder pr. sekund på alle kameraerne. Så nu skal du virkelig gøre dig umage for at tage et dårligt billede.',9746),
-(7,'Scandomestic Back Bar køler 158 ltr sort','Back Bar køler med 2 selvlukkende skydedøre, udvendig håndtag og indvendigt LED lys.',25087),
-(7,'Everglades EVUD4030','Funktionelt køle- og fryseskab fra Everglades, som er udstyret med en indbygget vanddispenser, så du altid kan servicere dig selv eller dine gæster med et koldt glas vand. Køleskabet har en kapacitet på 196 liter, mens fryseren kan rumme op til 66 liter. Desuden er det fritstående med et lavt støjniveau på 40 dB. Det kombinerede køle-/fryseskab er udført i et matsort design, som ser moderne og stilrent ud. Derudover er det muligt at flytte på de medfølgende hylder og skuffer, så du kan arrangere dem på den mest hensigtsmæssige måde for dig. Køle- og fryseskabet har desuden en vendbar dør, og ved strømsvigt opbevares indholdet sikkert i op til 15 timer efter.',16965),
-(7,'Køleskab R 600L SS','Stort professionelt køleskab 600 liter med rustfrit stålhus, lås og fire justerbare hylder. Digital temperaturregulering.',9922),
-(7,'Samsung RS6HA8891B1-EG','Samsung RS6HA8891B1-EG er et fritstående køle-/fryseskab der kan give dit køkken et unikt look. Da dette køle-/fryseskab er fritstående, er du ikke bundet til at det skal være i et køkkenskab, det betyder også at det ikke behøver at være en bestemt størrelse som giver dig mere frihed i forhold til plads. Med dens funktioner hjælper det dig med at holde alle dine madvarer friske i længere tid.',24692),
-(7,'Candy CVBNM6182WH89 fritstående kølefryseskab','Dette Candy kølefryseskab er velegnet til opbevaring af dine mad- og drikkevarer. Den har en køle volumen på 231 liter og hele 87 liter frost volumen. Selve kølefryseskab har klimaklasse SN-N-ST-T og opnået energiklassen A+.',17434);
+(5,'GOOGLE PIXEL 4A - 128GB - BARE SORT','Tag overdÃ¥dige billeder med Google Pixel 4A. Det ikoniske design, de regelmÃ¦ssige softwareopdateringer og den kraftfulde 12 MP sensor udgÃ¸r den ideelle enhed. Telefonen kommer ogsÃ¥ med et fremragende batteri med hurtig opladningsteknologi, sÃ¥ du trygt kan bruge din telefon hele dagen.',3290),
+(5,'Apple iPhone 12, 128GB, sort','Apple iPhone 12 er fremstillet med en 6,1â€ Super Retina XDR-skÃ¦rm fra kant til kant, der er omfavnet af stÃ¦rke aluminiumskanter i flykvalitet, samt Ceramic Shield, der har fire gange bedre beskyttelse, hvis du taber din telefon. Med det dobbeltÂ­kamera-system med ultravidvinkel kan du indfange mere af alt det, du godt kan lide. Tag billeder i vidvinkel og ultravidvinkel. Optag og redigÃ©r video i den hÃ¸jeste kvalitet i en smartphone. iPhone 12 optager fantastisk skarp 4K-video med 60 billeder pr. sekund pÃ¥ alle kameraerne. SÃ¥ nu skal du virkelig gÃ¸re dig umage for at tage et dÃ¥rligt billede.',9746),
+(7,'Scandomestic Back Bar kÃ¸ler 158 ltr sort','Back Bar kÃ¸ler med 2 selvlukkende skydedÃ¸re, udvendig hÃ¥ndtag og indvendigt LED lys.',25087),
+(7,'Everglades EVUD4030','Funktionelt kÃ¸le- og fryseskab fra Everglades, som er udstyret med en indbygget vanddispenser, sÃ¥ du altid kan servicere dig selv eller dine gÃ¦ster med et koldt glas vand. KÃ¸leskabet har en kapacitet pÃ¥ 196 liter, mens fryseren kan rumme op til 66 liter. Desuden er det fritstÃ¥ende med et lavt stÃ¸jniveau pÃ¥ 40 dB. Det kombinerede kÃ¸le-/fryseskab er udfÃ¸rt i et matsort design, som ser moderne og stilrent ud. Derudover er det muligt at flytte pÃ¥ de medfÃ¸lgende hylder og skuffer, sÃ¥ du kan arrangere dem pÃ¥ den mest hensigtsmÃ¦ssige mÃ¥de for dig. KÃ¸le- og fryseskabet har desuden en vendbar dÃ¸r, og ved strÃ¸msvigt opbevares indholdet sikkert i op til 15 timer efter.',16965),
+(7,'KÃ¸leskab R 600L SS','Stort professionelt kÃ¸leskab 600 liter med rustfrit stÃ¥lhus, lÃ¥s og fire justerbare hylder. Digital temperaturregulering.',9922),
+(7,'Samsung RS6HA8891B1-EG','Samsung RS6HA8891B1-EG er et fritstÃ¥ende kÃ¸le-/fryseskab der kan give dit kÃ¸kken et unikt look. Da dette kÃ¸le-/fryseskab er fritstÃ¥ende, er du ikke bundet til at det skal vÃ¦re i et kÃ¸kkenskab, det betyder ogsÃ¥ at det ikke behÃ¸ver at vÃ¦re en bestemt stÃ¸rrelse som giver dig mere frihed i forhold til plads. Med dens funktioner hjÃ¦lper det dig med at holde alle dine madvarer friske i lÃ¦ngere tid.',24692),
+(7,'Candy CVBNM6182WH89 fritstÃ¥ende kÃ¸lefryseskab','Dette Candy kÃ¸lefryseskab er velegnet til opbevaring af dine mad- og drikkevarer. Den har en kÃ¸le volumen pÃ¥ 231 liter og hele 87 liter frost volumen. Selve kÃ¸lefryseskab har klimaklasse SN-N-ST-T og opnÃ¥et energiklassen A+.',17434);
 
 INSERT INTO StoreProduct([StoreId],[ProductId],[Quantity]) 
 VALUES

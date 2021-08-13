@@ -5,5 +5,5 @@
  Quantity smallint,
  foreign key (SalesOrderId) references SalesOrder(Id),
  foreign key (ProductId) references Product(Id),
- primary key(SalesOrderId, ProductId)
+ constraint Pk_OrderLine primary key(SalesOrderId, ProductId)
 );

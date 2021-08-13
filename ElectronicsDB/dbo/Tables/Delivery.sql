@@ -7,5 +7,5 @@
  foreign key (SalesOrderId) references SalesOrder(Id),
  foreign key (PostalCodeId) references PostalCode(PostalCodeId),
  foreign key (CustomerId) references Customer(Id),
- primary key(SalesOrderId, CustomerId, PostalCodeId)
+ constraint Pk_Delivery primary key(SalesOrderId, CustomerId, PostalCodeId)
 );

@@ -4,5 +4,5 @@
  Quantity int not null,
  foreign key (StoreId) references Store(Id),
  foreign key (ProductId) references Product(Id),
- primary key(StoreId, ProductId)
+ constraint Pk_StoreProduct primary key(StoreId, ProductId)
 );
