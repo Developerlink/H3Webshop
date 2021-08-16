@@ -10,69 +10,87 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class SalesOrderRepository : ISalesOrderRepository
     {
+        private ElectronicsDbContext _electronicsDbContext;
+
+        public SalesOrderRepository(ElectronicsDbContext electronicsDbContext)
+        {
+            _electronicsDbContext = electronicsDbContext;
+        }
+
         public bool CreateSalesOrder(SalesOrder salesOrder)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Add(salesOrder);
+            return Save();
         }
 
         public bool DeleteSalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
+            var salesOrder = _electronicsDbContext.SalesOrder.Find(salesOrderId);
+            _electronicsDbContext.Remove(salesOrder);
+            return Save();
         }
 
         public bool DeleteSalesOrdersByOrderStatus(int orderStatusId)
         {
-            throw new NotImplementedException();
+            var salesOrders = _electronicsDbContext.SalesOrder.Where(s => s.OrderStatusId == orderStatusId);
+            _electronicsDbContext.RemoveRange(salesOrders);
+            return Save();
         }
 
         public bool DeleteSalesOrdersByStore(int storeId)
         {
-            throw new NotImplementedException();
+            var salesOrders = _electronicsDbContext.SalesOrder.Where(s => s.StoreId == storeId);
+            _electronicsDbContext.RemoveRange(salesOrders);
+            return Save();
         }
 
         public SalesOrder GetSalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
-        }
-
-        public SalesOrder GetSalesOrderFromDelivery(int deliveryId)
-        {
-            throw new NotImplementedException();
+            var salesOrder = _electronicsDbContext.SalesOrder.Find(salesOrderId);
+            return salesOrder;
         }
 
         public ICollection<SalesOrder> GetSalesOrders()
         {
-            throw new NotImplementedException();
+            var salesOrders = _electronicsDbContext.SalesOrder.OrderBy(s => s.Id).ToList();
+            return salesOrders;
         }
 
         public ICollection<SalesOrder> GetSalesOrdersFromOrderStatus(int orderStatusId)
         {
-            throw new NotImplementedException();
+            var salesOrders = _electronicsDbContext.SalesOrder.Where(s => s.OrderStatusId == orderStatusId).ToList();
+            return salesOrders;
         }
 
         public ICollection<SalesOrder> GetSalesOrdersFromProduct(int productId)
         {
-            throw new NotImplementedException();
+            var salesOrders = _electronicsDbContext.OrderLine.Where(o => o.ProductId == productId).Select(o => o.SalesOrder).ToList();
+            return salesOrders;
+
         }
 
         public ICollection<SalesOrder> GetSalesOrdersFromStore(int storeId)
         {
-            throw new NotImplementedException();
+            var salesOrders = _electronicsDbContext.SalesOrder.Where(s => s.StoreId == storeId).ToList();
+            return salesOrders;
         }
 
         public bool SalesOrderExists(int salesOrderId)
         {
-            throw new NotImplementedException();
-        }
+            return _electronicsDbContext.SalesOrder.Any(s => s.Id == salesOrderId);
 
-        public bool Save()
-        {
-            throw new NotImplementedException();
         }
 
         public bool UpdateSalesOrder(SalesOrder salesOrder)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Update(salesOrder);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;
         }
     }
 }

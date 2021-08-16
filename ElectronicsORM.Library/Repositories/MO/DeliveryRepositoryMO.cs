@@ -125,15 +125,13 @@ namespace ElectronicsORM.Library.Repositories.MO
             return false;
         }
 
-        public bool DeliveryExists(int salesOrderId, int customerId, int postalCodeId)
+        public bool DeliveryExists(int salesOrderId)
         {
             bool result = false;
 
-            string query = "SELECT COUNT(1) FROM Delivery WHERE Delivery.SalesOrderId=@salesOrderId AND Delivery.CustomerId=@customerId AND Delivery.PostalCodeId=@postalCodeId ";
+            string query = "SELECT COUNT(1) FROM Delivery WHERE Delivery.SalesOrderId=@salesOrderId ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
             cmd.Parameters.Add(new SqlParameter("@salesOrderId", salesOrderId));
-            cmd.Parameters.Add(new SqlParameter("@customerId", customerId));
-            cmd.Parameters.Add(new SqlParameter("@ostalCodeId", postalCodeId));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {

@@ -13,7 +13,7 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<Delivery> GetDeliveriesFromCustomer(int customerId);
         ICollection<Delivery> GetDeliveriesFromPostalCode(int postalCodeId);
         Delivery GetDeliveryFromSalesOrder(int salesOrderId);
-        bool DeliveryExists(int salesOrderId, int customerId, int postalCodeId);
+        bool DeliveryExists(int salesOrderId);
 
 
         bool CreateDelivery(Delivery delivery);

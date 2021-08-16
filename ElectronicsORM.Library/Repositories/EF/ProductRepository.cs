@@ -10,54 +10,78 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class ProductRepository : IProductRepository
     {
+        private ElectronicsDbContext _electronicsDbContext;
+
+        public ProductRepository(ElectronicsDbContext electronicsDbContext)
+        {
+            _electronicsDbContext = electronicsDbContext;
+        }
+
         public bool CreateProduct(Product product)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Add(product);
+            return Save();
         }
 
         public bool DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
+            var product = _electronicsDbContext.Product.Find(productId);
+            _electronicsDbContext.Remove(product);
+            return Save();
         }
 
         public bool DeleteProductsByProductType(int productTypeId)
         {
-            throw new NotImplementedException();
+            var products = _electronicsDbContext.Product.Where(p => p.ProductTypeId == productTypeId);
+            _electronicsDbContext.RemoveRange(products);
+            return Save();
         }
 
         public Product GetProduct(int productId)
         {
-            throw new NotImplementedException();
+            var product = _electronicsDbContext.Product.Find(productId);
+            return product;
         }
 
         public ICollection<Product> GetProducts()
         {
-            throw new NotImplementedException();
+            var products = _electronicsDbContext.Product.OrderBy(p => p.Name).ToList();
+            return products;
         }
 
         public ICollection<Product> GetProductsFromProductType(int productTypeId)
         {
-            throw new NotImplementedException();
+            var products = _electronicsDbContext.Product.Where(p => p.ProductTypeId == productTypeId).ToList();
+            return products;
         }
 
         public ICollection<Product> GetProductsFromSalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
+            var products = _electronicsDbContext.OrderLine.Where(o => o.SalesOrderId == salesOrderId).Select(o => o.Product).ToList();
+            return products;
         }
 
         public ICollection<Product> GetProductsFromStore(int storeId)
         {
-            throw new NotImplementedException();
+            var products = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId).Select(s => s.Product).ToList();
+            return products;
         }
 
         public bool ProductExists(int productId)
         {
-            throw new NotImplementedException();
+            return _electronicsDbContext.Product.Any(p => p.Id == productId);
         }
 
         public bool UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Update(product);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;
         }
     }
 }

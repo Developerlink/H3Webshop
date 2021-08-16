@@ -9,6 +9,12 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class StoreProductRepository : IStoreProductRepository
     {
+        private ElectronicsDbContext _electronicsDbContext;
+
+        public StoreProductRepository(ElectronicsDbContext electronicsDbContext)
+        {
+            _electronicsDbContext = electronicsDbContext;
+        }
         public bool CreateStoreProduct(StoreProduct storeProduct)
         {
             throw new NotImplementedException();
@@ -49,19 +55,20 @@ namespace ElectronicsORM.Library.Repositories.EF
             throw new NotImplementedException();
         }
 
-        public bool Save()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool StoreProductExists(int storeId, int productId)
         {
-            throw new NotImplementedException();
+            return _electronicsDbContext.StoreProduct.Any(s => s.StoreId == storeId && s.ProductId == productId);
         }
 
         public bool UpdateStoreProduct(StoreProduct storeProduct)
         {
             throw new NotImplementedException();
+        }
+
+        public bool Save()
+        {
+            var rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;
         }
     }
 }

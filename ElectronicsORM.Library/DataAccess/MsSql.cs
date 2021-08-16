@@ -15,7 +15,8 @@ namespace ElectronicsORM.Library.DataAccess
             } 
             else
             {
-                return "Data Source=DESKTOP-AM7NCT3;Initial Catalog=ElectronicsDB;Integrated Security=True";
+                return "Server=DESKTOP-AM7NCT3;Database=ElectronicsDB;User Id=sa;Password=Pwd12345.";
+                // return "Data Source=DESKTOP-AM7NCT3;Initial Catalog=ElectronicsDB;Integrated Security=True";
                 // In case you can't connect to the db the problem might be the extra space in the string like so:
                 // return "Data Source = DESKTOP - AM7NCT3; Initial Catalog = ElectronicsDB; Integrated Security = True"
             }

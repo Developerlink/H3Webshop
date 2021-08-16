@@ -10,109 +10,79 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        public bool CreateEmployee(Employee employee)
+        private ElectronicsDbContext _electronicsDbContext;
+
+        public EmployeeRepository(ElectronicsDbContext electronicsDbContext)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext = electronicsDbContext;
         }
 
-        public bool CreateOrderLine(OrderLine orderLine)
+        public bool CreateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Add(employee);
+            return Save();
         }
 
         public bool DeleteEmployee(int employeeId)
         {
-            throw new NotImplementedException();
+            var employeeToDelete = _electronicsDbContext.Employee.Find(employeeId);
+            _electronicsDbContext.Remove(employeeToDelete);
+            return Save();
         }
 
         public bool DeleteEmployeesByDepartment(int departmentId)
         {
-            throw new NotImplementedException();
+            var employeesToDelete = _electronicsDbContext.Employee.Where(e => e.DepartmentId == departmentId);
+            _electronicsDbContext.RemoveRange(employeesToDelete);
+            return Save();
         }
 
         public bool DeleteEmployeesByPostalCode(int postalCodeId)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteOrderLine(int salesOrderId, int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteOrderLinesByProduct(int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteOrderLinesBySalesOrder(int salesOrderId)
-        {
-            throw new NotImplementedException();
+            var employeesToDelete = _electronicsDbContext.Employee.Where(e => e.PostalCodeId == postalCodeId);
+            _electronicsDbContext.RemoveRange(employeesToDelete);
+            return Save();
         }
 
         public bool EmployeeExists(int employeeId)
         {
-            throw new NotImplementedException();
+            return _electronicsDbContext.Employee.Any(e=> e.Id == employeeId);
         }
 
         public Employee GetEmployee(int employeeId)
         {
-            throw new NotImplementedException();
+            var employee = _electronicsDbContext.Employee.Find(employeeId);
+            return employee;
         }
 
         public ICollection<Employee> GetEmployees()
         {
-            throw new NotImplementedException();
+            var employees = _electronicsDbContext.Employee.OrderBy(e => e.FirstName).ToList();
+            return employees;
         }
 
         public ICollection<Employee> GetEmployeesFromDepartment(int departmentId)
         {
-            throw new NotImplementedException();
+            var employees = _electronicsDbContext.Employee.Where(e => e.DepartmentId == departmentId).OrderBy(e => e.FirstName).ToList();
+            return employees;
         }
 
         public ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeID)
         {
-            throw new NotImplementedException();
-        }
-
-        public OrderLine GetOrderLine(int salesOrderId, int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<OrderLine> GetOrderLines()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<OrderLine> GetOrderLinesFromProduct(int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<OrderLine> GetOrderLinesFromSalesOrder(int salesOrderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool OrderLineExists(int salesOrderId, int productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Save()
-        {
-            throw new NotImplementedException();
+            var employees = _electronicsDbContext.Employee.Where(e => e.PostalCodeId == postalCodeID).OrderBy(e => e.FirstName).ToList();
+            return employees;
         }
 
         public bool UpdateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Update(employee);
+            return Save();
         }
 
-        public bool UpdateOrderLine(OrderLine orderLine)
+        public bool Save()
         {
-            throw new NotImplementedException();
+            var rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;
         }
     }
 }

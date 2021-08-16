@@ -10,59 +10,80 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class DeliveryRepository : IDeliveryRepository
     {
+        private ElectronicsDbContext _electronicsDbContext;
+
+        public DeliveryRepository(ElectronicsDbContext electronicsDbContext)
+        {
+            _electronicsDbContext = electronicsDbContext;
+        }
+
         public bool CreateDelivery(Delivery delivery)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Add(delivery);
+            return Save();
         }
 
         public bool DeleteDeliveriesByCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var deliveriesToDelete = _electronicsDbContext.Delivery.Where(d => d.CustomerId == customerId);
+            _electronicsDbContext.RemoveRange(deliveriesToDelete);
+            return Save();
         }
 
         public bool DeleteDeliveriesByPostalCode(int postalCodeId)
         {
-            throw new NotImplementedException();
+            var deliveriesToDelete = _electronicsDbContext.Delivery.Where(d => d.PostalCodeId == postalCodeId);
+            _electronicsDbContext.RemoveRange(deliveriesToDelete);
+            return Save();
         }
 
         public bool DeleteDeliveryBySalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
+            var deliveryToDelete = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId);
+            _electronicsDbContext.Remove(deliveryToDelete);
+            return Save();
         }
 
-        public bool DeliveryExists(int salesOrderId, int customerId, int postalCodeId)
+        public bool DeliveryExists(int salesOrderId)
         {
-            throw new NotImplementedException();
+            return _electronicsDbContext.Delivery.Any(d => d.SalesOrderId  == salesOrderId);
+
         }
 
         public ICollection<Delivery> GetDeliveries()
         {
-            throw new NotImplementedException();
+            var deliveries = _electronicsDbContext.Delivery.OrderBy(d => d.CustomerId).OrderBy(d => d.SalesOrder.OrderDate).ToList();
+            return deliveries;
         }
 
         public ICollection<Delivery> GetDeliveriesFromCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var deliveries = _electronicsDbContext.Delivery.Where(d => d.CustomerId == customerId).OrderBy(d => d.SalesOrder.OrderDate).ToList();
+            return deliveries;
         }
 
         public ICollection<Delivery> GetDeliveriesFromPostalCode(int postalCodeId)
         {
-            throw new NotImplementedException();
+            var deliveries = _electronicsDbContext.Delivery.Where(d => d.PostalCodeId == postalCodeId).OrderBy(d => d.SalesOrder.OrderDate).ToList();
+            return deliveries;
         }
 
         public Delivery GetDeliveryFromSalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Save()
-        {
-            throw new NotImplementedException();
+            var delivery = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId).OrderBy(d => d.SalesOrder.OrderDate).FirstOrDefault();
+            return delivery;
         }
 
         public bool UpdateDelivery(Delivery delivery)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Update(delivery);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;
         }
     }
 }

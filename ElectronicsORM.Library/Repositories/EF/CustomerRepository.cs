@@ -9,54 +9,72 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class CustomerRepository : ICustomerRepository
     {
+        private ElectronicsDbContext _electronicsDbContext;
+
+        public CustomerRepository(ElectronicsDbContext electronicsDbContext)
+        {
+            _electronicsDbContext = electronicsDbContext;
+        }
+
         public bool CreateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Add(customer);
+            return Save();
         }
 
         public bool CustomerExists(int customerId)
         {
-            throw new NotImplementedException();
+            return _electronicsDbContext.Customer.Any(c => c.Id == customerId);
         }
 
         public bool DeleteCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var customerToDelete = _electronicsDbContext.Customer.Find(customerId);
+            _electronicsDbContext.Remove(customerToDelete);
+            return Save();
         }
 
         public bool DeleteCustomersByPostalCode(int postalCodeID)
         {
-            throw new NotImplementedException();
+            var customersToDelete = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeID);
+            _electronicsDbContext.RemoveRange(customersToDelete);
+            return Save();
         }
 
         public Customer GetCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var customer = _electronicsDbContext.Customer.Find(customerId);
+            return customer;
         }
 
         public Customer GetCustomerFromSalesOrder(int salesOrderId)
         {
-            throw new NotImplementedException();
+            var customer = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId).Select(d => d.Customer).FirstOrDefault();
+            return customer;
         }
 
         public ICollection<Customer> GetCustomers()
         {
-            throw new NotImplementedException();
+            var customers = _electronicsDbContext.Customer.OrderBy(c => c.FirstName).ToList();
+            return customers;
         }
 
         public ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Save()
-        {
-            throw new NotImplementedException();
+            var customers = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeId).ToList();
+            return customers;
         }
 
         public bool UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Update(customer);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;
         }
     }
 }
