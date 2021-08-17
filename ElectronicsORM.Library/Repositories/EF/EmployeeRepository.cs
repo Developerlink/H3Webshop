@@ -10,7 +10,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public EmployeeRepository(ElectronicsDbContext electronicsDbContext)
         {
@@ -57,19 +57,19 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public ICollection<Employee> GetEmployees()
         {
-            var employees = _electronicsDbContext.Employee.OrderBy(e => e.FirstName).ToList();
+            var employees = _electronicsDbContext.Employee.OrderByDescending(e => e.Id).ToList();
             return employees;
         }
 
         public ICollection<Employee> GetEmployeesFromDepartment(int departmentId)
         {
-            var employees = _electronicsDbContext.Employee.Where(e => e.DepartmentId == departmentId).OrderBy(e => e.FirstName).ToList();
+            var employees = _electronicsDbContext.Employee.Where(e => e.DepartmentId == departmentId).OrderBy(e => e.FirstName).OrderBy(e => e.LastName).ToList();
             return employees;
         }
 
         public ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeID)
         {
-            var employees = _electronicsDbContext.Employee.Where(e => e.PostalCodeId == postalCodeID).OrderBy(e => e.FirstName).ToList();
+            var employees = _electronicsDbContext.Employee.Where(e => e.PostalCodeId == postalCodeID).OrderBy(e => e.FirstName).OrderBy(e => e.LastName).ToList();
             return employees;
         }
 

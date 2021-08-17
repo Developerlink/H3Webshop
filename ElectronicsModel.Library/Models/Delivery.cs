@@ -18,11 +18,5 @@ namespace ElectronicsModel.Library.Models
         public virtual Customer Customer { get; set; }
         public virtual PostalCode PostalCode { get; set; }
 
-        public Delivery()
-        {
-            SalesOrder = new SalesOrder();
-            Customer = new Customer();
-            PostalCode = new PostalCode();
-        }
     }
 }

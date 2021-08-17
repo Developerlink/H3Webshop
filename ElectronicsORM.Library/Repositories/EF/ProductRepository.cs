@@ -10,7 +10,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class ProductRepository : IProductRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public ProductRepository(ElectronicsDbContext electronicsDbContext)
         {
@@ -25,15 +25,15 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool DeleteProduct(int productId)
         {
-            var product = _electronicsDbContext.Product.Find(productId);
-            _electronicsDbContext.Remove(product);
+            var productToDelete = _electronicsDbContext.Product.Find(productId);
+            _electronicsDbContext.Remove(productToDelete);
             return Save();
         }
 
         public bool DeleteProductsByProductType(int productTypeId)
         {
-            var products = _electronicsDbContext.Product.Where(p => p.ProductTypeId == productTypeId);
-            _electronicsDbContext.RemoveRange(products);
+            var productsToDelete = _electronicsDbContext.Product.Where(p => p.ProductTypeId == productTypeId);
+            _electronicsDbContext.RemoveRange(productsToDelete);
             return Save();
         }
 
@@ -45,7 +45,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public ICollection<Product> GetProducts()
         {
-            var products = _electronicsDbContext.Product.OrderBy(p => p.Name).ToList();
+            var products = _electronicsDbContext.Product.OrderByDescending(p => p.Id).ToList();
             return products;
         }
 

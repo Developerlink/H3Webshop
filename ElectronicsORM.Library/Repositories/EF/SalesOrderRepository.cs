@@ -10,7 +10,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class SalesOrderRepository : ISalesOrderRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public SalesOrderRepository(ElectronicsDbContext electronicsDbContext)
         {
@@ -25,22 +25,22 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool DeleteSalesOrder(int salesOrderId)
         {
-            var salesOrder = _electronicsDbContext.SalesOrder.Find(salesOrderId);
-            _electronicsDbContext.Remove(salesOrder);
+            var salesOrderToDelete = _electronicsDbContext.SalesOrder.Find(salesOrderId);
+            _electronicsDbContext.Remove(salesOrderToDelete);
             return Save();
         }
 
         public bool DeleteSalesOrdersByOrderStatus(int orderStatusId)
         {
-            var salesOrders = _electronicsDbContext.SalesOrder.Where(s => s.OrderStatusId == orderStatusId);
-            _electronicsDbContext.RemoveRange(salesOrders);
+            var salesOrdersToDelete = _electronicsDbContext.SalesOrder.Where(s => s.OrderStatusId == orderStatusId);
+            _electronicsDbContext.RemoveRange(salesOrdersToDelete);
             return Save();
         }
 
         public bool DeleteSalesOrdersByStore(int storeId)
         {
-            var salesOrders = _electronicsDbContext.SalesOrder.Where(s => s.StoreId == storeId);
-            _electronicsDbContext.RemoveRange(salesOrders);
+            var salesOrdersToDelete = _electronicsDbContext.SalesOrder.Where(s => s.StoreId == storeId);
+            _electronicsDbContext.RemoveRange(salesOrdersToDelete);
             return Save();
         }
 
@@ -52,7 +52,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public ICollection<SalesOrder> GetSalesOrders()
         {
-            var salesOrders = _electronicsDbContext.SalesOrder.OrderBy(s => s.Id).ToList();
+            var salesOrders = _electronicsDbContext.SalesOrder.OrderByDescending(s => s.Id).ToList();
             return salesOrders;
         }
 

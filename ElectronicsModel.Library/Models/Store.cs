@@ -17,10 +17,5 @@ namespace ElectronicsModel.Library.Models
         public virtual ICollection<Department> Departments { get; set; }
         public virtual ICollection<StoreProduct> StoreProducts { get; set; }
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
-
-        public Store()
-        {
-            PostalCode = new PostalCode();
-        }
     }
 }

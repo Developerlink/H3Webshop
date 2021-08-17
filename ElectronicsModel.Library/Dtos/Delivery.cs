@@ -13,5 +13,19 @@ namespace ElectronicsModel.Library.Dtos
         public int PostalCodeId { get; set; }
         public string Address { get; set; }
         public DateTime SendDate { get; set; }
+
+        public DeliveryDto()
+        {
+
+        }
+
+        public DeliveryDto(Delivery delivery)
+        {
+            SalesOrderId = delivery.SalesOrderId;
+            PostalCodeId = delivery.PostalCodeId;
+            CustomerId = delivery.CustomerId;
+            Address = delivery.Address;
+            SendDate = delivery.SendDate;
+        }
     }
 }

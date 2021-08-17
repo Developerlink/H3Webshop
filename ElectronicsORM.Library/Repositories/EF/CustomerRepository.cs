@@ -9,7 +9,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public CustomerRepository(ElectronicsDbContext electronicsDbContext)
         {
@@ -55,13 +55,13 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public ICollection<Customer> GetCustomers()
         {
-            var customers = _electronicsDbContext.Customer.OrderBy(c => c.FirstName).ToList();
+            var customers = _electronicsDbContext.Customer.OrderByDescending(c => c.Id).ThenBy(c => c.LastName).ToList();
             return customers;
         }
 
         public ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId)
         {
-            var customers = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeId).ToList();
+            var customers = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeId).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
             return customers;
         }
 

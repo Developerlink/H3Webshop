@@ -9,7 +9,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class StoreProductRepository : IStoreProductRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public StoreProductRepository(ElectronicsDbContext electronicsDbContext)
         {
@@ -17,42 +17,53 @@ namespace ElectronicsORM.Library.Repositories.EF
         }
         public bool CreateStoreProduct(StoreProduct storeProduct)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Add(storeProduct);
+            return Save();
         }
 
         public bool DeleteStoreProduct(int storeId, int productId)
         {
-            throw new NotImplementedException();
+            var storeProductsToDelete = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId && s.ProductId == productId).ToList();
+            _electronicsDbContext.RemoveRange(storeProductsToDelete);
+            return Save();
         }
 
         public bool DeleteStoreProductByProduct(int productId)
         {
-            throw new NotImplementedException();
+            var storeProductsToDelete = _electronicsDbContext.StoreProduct.Where(s => s.ProductId == productId).ToList();
+            _electronicsDbContext.RemoveRange(storeProductsToDelete);
+            return Save();
         }
 
         public bool DeleteStoreProductsByStore(int storeId)
         {
-            throw new NotImplementedException();
+            var storeProductsToDelete = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId).ToList();
+            _electronicsDbContext.RemoveRange(storeProductsToDelete);
+            return Save();
         }
 
         public StoreProduct GetStoreProduct(int storeId, int productId)
         {
-            throw new NotImplementedException();
+            var storeProduct = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId && s.ProductId == productId).FirstOrDefault(); ;
+            return storeProduct;
         }
 
         public ICollection<StoreProduct> GetStoreProducts()
         {
-            throw new NotImplementedException();
+            var storeProducts = _electronicsDbContext.StoreProduct.OrderBy(s => s.StoreId).ToList();
+            return storeProducts;
         }
 
         public ICollection<StoreProduct> GetStoreProductsFromProduct(int productId)
         {
-            throw new NotImplementedException();
+            var storeProducts = _electronicsDbContext.StoreProduct.Where(s => s.ProductId == productId).ToList();
+            return storeProducts;
         }
 
         public ICollection<StoreProduct> GetStoreProductsFromStore(int storeId)
         {
-            throw new NotImplementedException();
+            var storeProducts = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId).ToList();
+            return storeProducts;
         }
 
         public bool StoreProductExists(int storeId, int productId)
@@ -62,7 +73,8 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool UpdateStoreProduct(StoreProduct storeProduct)
         {
-            throw new NotImplementedException();
+            _electronicsDbContext.Update(storeProduct);
+            return Save();
         }
 
         public bool Save()

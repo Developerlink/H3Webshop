@@ -71,19 +71,15 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
 
-                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-                int count = 0;
-                while (reader.Read())
-                {
-                    count = reader.GetInt32(0);
-                }
-                reader.Close();
+                int count = (int)cmd.ExecuteScalar();
 
                 if (count == 1)
                 {
                     result = true;
                 }
             }
+            _dbConn.Close();
+
             return result;
         }
 
@@ -101,6 +97,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
+                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -126,6 +123,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     cmd.ExecuteNonQuery();
+                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -176,6 +174,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 reader.Close();
                 if (i != 1) return null;
             }
+            _dbConn.Close();
+
             return customer;
         }
 
@@ -224,6 +224,8 @@ namespace ElectronicsORM.Library.Repositories.MO
 
                 if (i != 1) return null;
             }
+            _dbConn.Close();
+
             return customer;
         }
 
@@ -263,6 +265,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
 
             return customers;
         }
@@ -303,6 +306,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
 
             return customers;
         }

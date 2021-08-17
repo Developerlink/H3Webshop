@@ -10,7 +10,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class OrderLineRepository : IOrderLineRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public OrderLineRepository(ElectronicsDbContext electronicsDbContext)
         {

@@ -14,19 +14,13 @@ namespace ElectronicsModel.Library.Models
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime WorkStartDate { get; set; }
-        public DateTime WorkEndDate { get; set; }
+        public DateTime? WorkStartDate { get; set; }
+        public DateTime? WorkEndDate { get; set; }
         public bool IsActive { get; set; }
         public string Address { get; set; }
 
 
         public virtual Department Department { get; set; }
         public virtual PostalCode PostalCode { get; set; }
-
-        public Employee()
-        {
-            Department = new Department();
-            PostalCode = new PostalCode();
-        }
     }
 }

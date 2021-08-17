@@ -26,6 +26,7 @@ namespace ElectronicsORM.Library
         public DbSet<SalesOrder> SalesOrder { get; set; }
         public DbSet<Store> Store { get; set; }
         public DbSet<StoreProduct> StoreProduct { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,6 +56,9 @@ namespace ElectronicsORM.Library
                 .HasForeignKey(st => st.ProductId);
             });
 
+            modelBuilder.Entity<Delivery>().HasKey(d => new { d.SalesOrderId, d.CustomerId, d.PostalCodeId });
+
+            modelBuilder.Entity<PostalCode>().HasKey(p => p.PostalCodeId);
         }
     }
 }

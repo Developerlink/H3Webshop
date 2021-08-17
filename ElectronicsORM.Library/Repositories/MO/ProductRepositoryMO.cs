@@ -137,6 +137,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 reader.Close();
                 if (i != 1) return null;
             }
+            _dbConn.Close();
+
             return product;
         }
 
@@ -175,6 +177,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return products;
         }
 
@@ -214,6 +218,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return products;
         }
 
@@ -255,6 +261,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return products;
         }
 
@@ -294,6 +302,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return products;
         }
 
@@ -317,17 +327,15 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
 
-                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-                int count = 0;
-                while (reader.Read())
-                {
-                    count = reader.GetInt32(0);
-                }
+                int count = (int)cmd.ExecuteScalar();
+
                 if (count == 1)
                 {
                     result = true;
                 }
             }
+            _dbConn.Close();
+
             return result;
         }
 

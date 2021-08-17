@@ -159,6 +159,8 @@ namespace ElectronicsORM.Library.Repositories.MO
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return storeProduct;
         }
 
@@ -191,9 +193,12 @@ namespace ElectronicsORM.Library.Repositories.MO
                         ProductId = reader.GetInt32(1),
                         Quantity = reader.GetInt16(2)
                     };
+                    storeProducts.Add(storeProduct);
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return storeProducts;
         }
 
@@ -227,9 +232,12 @@ namespace ElectronicsORM.Library.Repositories.MO
                         ProductId = reader.GetInt32(1),
                         Quantity = reader.GetInt16(2)
                     };
+                    storeProducts.Add(storeProduct);
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return storeProducts;
         }
 
@@ -263,9 +271,12 @@ namespace ElectronicsORM.Library.Repositories.MO
                         ProductId = reader.GetInt32(1),
                         Quantity = reader.GetInt16(2)
                     };
+                    storeProducts.Add(storeProduct);
                 }
                 reader.Close();
             }
+            _dbConn.Close();
+
             return storeProducts;
         }
 
@@ -290,17 +301,15 @@ namespace ElectronicsORM.Library.Repositories.MO
                     throw new Exception(ex.Message);
                 }
 
-                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-                int count = 0;
-                while (reader.Read())
-                {
-                    count = reader.GetInt32(0);
-                }
+                int count = (int)cmd.ExecuteScalar();
+
                 if (count == 1)
                 {
                     result = true;
                 }
             }
+            _dbConn.Close();
+
             return result;
         }
 

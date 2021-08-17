@@ -31,6 +31,7 @@ namespace ElectronicsAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             var connectionString = "";
 
@@ -54,8 +55,11 @@ namespace ElectronicsAPI
                     .AddScoped<IEmployeeRepository, EmployeeRepository>()
                     .AddScoped<IOrderLineRepository, OrderLineRepository>()
                     .AddScoped<IProductRepository, ProductRepository>()
+                    .AddScoped<IProductTypeRepository, ProductTypeRepository>()
                     .AddScoped<ISalesOrderRepository, SalesOrderRepository>()
-                    .AddScoped<IStoreProductRepository, StoreProductRepository>();
+                    .AddScoped<IStoreProductRepository, StoreProductRepository>()
+                    .AddScoped<IStoreRepository, StoreRepository>()
+                    .AddScoped<IPostalCodeRepository, PostalCodeRepository>();
             }
             else
             {
@@ -64,8 +68,11 @@ namespace ElectronicsAPI
                     .AddScoped<IEmployeeRepository, EmployeeRepositoryMO>()
                     .AddScoped<IOrderLineRepository, OrderLineRepositoryMO>()
                     .AddScoped<IProductRepository, ProductRepositoryMO>()
+                    .AddScoped<IProductTypeRepository, ProductTypeRepositoryMO>()
                     .AddScoped<ISalesOrderRepository, SalesOrderRepositoryMO>()
-                    .AddScoped<IStoreProductRepository, StoreProductRepositoryMO>();
+                    .AddScoped<IStoreProductRepository, StoreProductRepositoryMO>()
+                    .AddScoped<IStoreRepository, StoreRepositoryMO>()
+                    .AddScoped<IPostalCodeRepository, PostalCodeRepositoryMO>();
             }
         }
 

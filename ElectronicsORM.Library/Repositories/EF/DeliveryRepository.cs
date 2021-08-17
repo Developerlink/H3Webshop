@@ -10,7 +10,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 {
     public class DeliveryRepository : IDeliveryRepository
     {
-        private ElectronicsDbContext _electronicsDbContext;
+        private readonly ElectronicsDbContext _electronicsDbContext;
 
         public DeliveryRepository(ElectronicsDbContext electronicsDbContext)
         {
