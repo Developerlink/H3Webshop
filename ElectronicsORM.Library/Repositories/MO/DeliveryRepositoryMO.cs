@@ -21,6 +21,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool CreateDelivery(Delivery delivery)
         {
+            bool result = false;
             string query = "INSERT INTO [dbo].[Delivery] ([SalesOrderId],[PostalCodeId],[Address],[SendDate],[CustomerId]) " +
                 "VALUES (@SalesOrderId,@PostalCodeId,@Address,@SendDate,@CustomerId) ";
 
@@ -37,8 +38,11 @@ namespace ElectronicsORM.Library.Repositories.MO
                 {
                     // open database connection
                     _dbConn.Open();
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        result = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -47,11 +51,12 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeleteDeliveriesByCustomer(int customerId)
         {
+            bool result = false;
             string query = "DELETE FROM Delivery WHERE CustomerId=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -64,6 +69,10 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected >= 1)
+                    {
+                        result = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -72,11 +81,12 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeleteDeliveriesByPostalCode(int postalCodeId)
         {
+            bool result = false;
             string query = "DELETE FROM Delivery WHERE PostalCodeId=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -89,6 +99,10 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected >= 1)
+                    {
+                        result = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -97,11 +111,12 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeleteDeliveryBySalesOrder(int salesOrderId)
         {
+            bool result = false;
             string query = "DELETE FROM Delivery WHERE SalesOrderId=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -114,6 +129,10 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        result = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -122,7 +141,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeliveryExists(int salesOrderId)
@@ -321,6 +340,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool UpdateDelivery(Delivery delivery)
         {
+            bool result = false;
             string query = "UPDATE [dbo].[Delivery] SET " +
                 ",[PostalCodeId] = @PostalCodeId" +
                 ",[Address] = $Address" +
@@ -344,7 +364,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected == 1)
                     {
-                        return true;
+                        result = true;
                     }
                 }
                 catch (Exception ex)
@@ -354,7 +374,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
     }
 }

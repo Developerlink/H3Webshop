@@ -26,7 +26,7 @@ namespace ElectronicsORM.Library.Repositories.MO
         {
             bool result = false;
 
-            string query = "SELECT COUNT(1) FROM PostalCode WHERE PostalCodeId=@Id ";
+            string query = "SELECT COUNT(1) FROM ProductType WHERE Id=@Id ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
             cmd.Parameters.Add(new SqlParameter("@Id", productTypeId));
 

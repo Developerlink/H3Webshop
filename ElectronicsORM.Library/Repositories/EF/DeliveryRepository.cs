@@ -79,8 +79,8 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool UpdateDelivery(Delivery delivery)
         {
-            //DeleteDeliveryBySalesOrder(delivery.SalesOrderId);
-            //CreateDelivery(delivery);
+            DeleteDeliveryBySalesOrder(delivery.SalesOrderId);
+            CreateDelivery(delivery);
             //_electronicsDbContext.Update(delivery);
             //_electronicsDbContext.Delivery.FromSqlInterpolated($"UPDATE [dbo].[Delivery] SET [PostalCodeId] = {delivery.PostalCodeId},[Address] = {delivery.Address},[SendDate] = {delivery.SendDate},[CustomerId] = {delivery.CustomerId} WHERE SalesOrderId = {delivery.SalesOrderId}");
             return Save();

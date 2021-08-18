@@ -20,6 +20,7 @@ namespace ElectronicsORM.Library.Repositories.MO
         }
         public bool CreateProduct(Product product)
         {
+            bool result = false;
             string query = "INSERT INTO [dbo].[Product] ([ProductTypeId],[Name],[Description],[Price])" +
                 "OUTPUT INSERTED.ID " +
                 "VALUES (@ProductTypeId, @Name, @Description, @Price) ";
@@ -37,7 +38,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     product.Id = (int)cmd.ExecuteScalar();
-                    return true;
+                    result = true;
                 }
                 catch (Exception ex)
                 {
@@ -46,11 +47,12 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeleteProduct(int productId)
         {
+            bool result = false;
             string query = "DELETE FROM Product WHERE Product.Id=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -62,7 +64,11 @@ namespace ElectronicsORM.Library.Repositories.MO
                 {
                     // open database connection
                     _dbConn.Open();
-                    cmd.ExecuteNonQuery();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        result = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -71,11 +77,12 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeleteProductsByProductType(int productTypeId)
         {
+            bool result = false;
             string query = "DELETE FROM Product WHERE ProductTypeId=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -87,7 +94,11 @@ namespace ElectronicsORM.Library.Repositories.MO
                 {
                     // open database connection
                     _dbConn.Open();
-                    cmd.ExecuteNonQuery();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected >= 1)
+                    {
+                        result = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -96,7 +107,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public Product GetProduct(int productId)
@@ -146,7 +157,7 @@ namespace ElectronicsORM.Library.Repositories.MO
         {
             var products = new List<Product>();
 
-            string query = "SELECT [ProductTypeId],[Name],[Description],[Price],[Id] FROM[dbo].[Product] ";
+            string query = "SELECT [ProductTypeId],[Name],[Description],[Price],[Id] FROM[dbo].[Product] ORDER BY Id DESC";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
 
@@ -310,7 +321,6 @@ namespace ElectronicsORM.Library.Repositories.MO
         public bool ProductExists(int productId)
         {
             bool result = false;
-
             string query = "SELECT COUNT(1) FROM Product WHERE Product.Id=@Id ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
             cmd.Parameters.AddWithValue("@Id", productId);
@@ -341,6 +351,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool UpdateProduct(Product product)
         {
+            bool result = false;
             string query = "UPDATE [dbo].[Product] SET " +
                 "[ProductTypeId] = @ProductTypeId , " +
                 "[Name] = @Name, " +
@@ -364,7 +375,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected == 1)
                     {
-                        return true;
+                        result = true;
                     }
                 }
                 catch (Exception ex)
@@ -374,7 +385,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool CreateCustomer(Customer customer)
         {
+            bool result = false;
             string query = "INSERT INTO [dbo].[Customer] ([PostalCodeId], [FirstName], [LastName], [EmailAddress], [PhoneNumber], [Address]) " +
                 "OUTPUT INSERTED.ID " +
                 "VALUES (@PostalCodeId, @FirstName, @LastName, @EmailAddress, @PhoneNumber, @Address) ";
@@ -39,7 +40,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     customer.Id = (int)cmd.ExecuteScalar();
-                    return true;
+                    result = true;
                 }
                 catch (Exception ex)
                 {
@@ -48,7 +49,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool CustomerExists(int customerId)
@@ -85,6 +86,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool DeleteCustomer(int customerId)
         {
+            bool result = false;
             string query = "DELETE FROM Customer WHERE Customer.Id=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -97,7 +99,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    return true;
+                    result = true;
                 }
                 catch (Exception ex)
                 {
@@ -106,11 +108,12 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public bool DeleteCustomersByPostalCode(int postalCodeID)
         {
+            bool result = false;
             string query = "DELETE FROM Customer WHERE Customer.PostalCodeId=@PostalCodeId ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
@@ -123,7 +126,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     // open database connection
                     _dbConn.Open();
                     cmd.ExecuteNonQuery();
-                    return true;
+                    result = true;
                 }
                 catch (Exception ex)
                 {
@@ -132,7 +135,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
 
         public Customer GetCustomer(int customerId)
@@ -313,6 +316,7 @@ namespace ElectronicsORM.Library.Repositories.MO
 
         public bool UpdateCustomer(Customer customer)
         {
+            bool result = false;
             string query = "UPDATE Customer SET " +
                 "PostalCodeId = @PostalCodeId " +
                 ",FirstName = @FirstName " +
@@ -340,7 +344,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected == 1)
                     {
-                        return true;
+                        result = true;
                     }
                 }
                 catch (Exception ex)
@@ -350,7 +354,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             }
             _dbConn.Close();
 
-            return false;
+            return result;
         }
     }
 }

@@ -25,7 +25,6 @@ namespace ElectronicsORM.Library.Repositories.MO
         public bool PostalCodeExists(int postalCodeId)
         {
             bool result = false;
-
             string query = "SELECT COUNT(1) FROM PostalCode WHERE PostalCodeId=@Id ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
             cmd.Parameters.Add(new SqlParameter("@Id", postalCodeId));
