@@ -46,13 +46,13 @@ namespace ElectronicsORM.Library.Repositories.MO
             return false;
         }
 
-        public bool DeleteStoreProduct(int storeId, int productId)
+        public bool DeleteStoreProduct(StoreProduct storeProduct)
         {
             string query = "DELETE FROM StoreProduct WHERE StoreId=@StoreId AND ProductId=@ProductId ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.Add(new SqlParameter("@StoreId", storeId));
-            cmd.Parameters.Add(new SqlParameter("@ProductId", productId));
+            cmd.Parameters.Add(new SqlParameter("@StoreId", storeProduct.StoreId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", storeProduct.ProductId));
 
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
@@ -280,14 +280,14 @@ namespace ElectronicsORM.Library.Repositories.MO
             return storeProducts;
         }
 
-        public bool StoreProductExists(int storeId, int productId)
+        public bool StoreProductExists(StoreProduct storeProduct)
         {
             bool result = false;
 
             string query = "SELECT COUNT(1) FROM StoreProduct WHERE StoreProduct.StoreId=@storeId AND StoreProduct.ProductId=@productId ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.AddWithValue("@storeId", storeId);
-            cmd.Parameters.AddWithValue("@productId", productId);
+            cmd.Parameters.AddWithValue("@storeId", storeProduct.StoreId);
+            cmd.Parameters.AddWithValue("@productId", storeProduct.ProductId);
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {

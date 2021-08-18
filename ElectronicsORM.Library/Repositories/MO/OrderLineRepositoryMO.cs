@@ -49,13 +49,13 @@ namespace ElectronicsORM.Library.Repositories.MO
             return false;
         }
 
-        public bool DeleteOrderLine(int salesOrderId, int productId)
+        public bool DeleteOrderLine(OrderLine orderLine)
         {
             string query = "DELETE FROM OrderLine WHERE SalesOrderId=@SalesOrderId AND ProductId=@ProductId ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", salesOrderId));
-            cmd.Parameters.Add(new SqlParameter("@ProductId", productId));
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", orderLine.SalesOrderId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", orderLine.ProductId));
 
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
@@ -286,14 +286,14 @@ namespace ElectronicsORM.Library.Repositories.MO
             return orderLines;
         }
 
-        public bool OrderLineExists(int salesOrderId, int productId)
+        public bool OrderLineExists(OrderLine orderLine)
         {
             bool result = false;
 
             string query = "SELECT COUNT(1) FROM OrderLine WHERE OrderLine.SalesOrderId=@salesOrderId AND OrderLine.ProductId=@productId ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.AddWithValue("@salesOrderId", salesOrderId);
-            cmd.Parameters.AddWithValue("@productId", productId);
+            cmd.Parameters.Add(new SqlParameter("@SalesOrderId", orderLine.SalesOrderId));
+            cmd.Parameters.Add(new SqlParameter("@ProductId", orderLine.ProductId));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {

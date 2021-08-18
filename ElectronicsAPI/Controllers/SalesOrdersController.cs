@@ -120,11 +120,6 @@ namespace ElectronicsAPI.Controllers
 
             if (!ModelState.IsValid)
             {
-                return StatusCode(404, ModelState);
-            }
-
-            if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
             }
 
@@ -154,6 +149,7 @@ namespace ElectronicsAPI.Controllers
             }
 
             var orderLinesToDelete = _orderLineRepository.GetOrderLinesFromSalesOrder(salesOrderId);
+            var deliveryToDelete = _deliveryRepository.GetDeliveryFromSalesOrder(salesOrderId);
 
             if (!ModelState.IsValid)
             {
@@ -165,6 +161,15 @@ namespace ElectronicsAPI.Controllers
                 if(!_orderLineRepository.DeleteOrderLinesBySalesOrder(salesOrderId))
                 {
                     ModelState.AddModelError("", $"Something went wrong deleting orderlines with SalesOrder Id({ salesOrderId }) ");
+                    return StatusCode(500, ModelState);
+                }
+            }
+
+            if (deliveryToDelete != null)
+            {
+                if (!_deliveryRepository.DeleteDeliveryBySalesOrder(salesOrderId))
+                {
+                    ModelState.AddModelError("", $"Something went wrong deleting delivery with SalesOrder Id({ salesOrderId }) ");
                     return StatusCode(500, ModelState);
                 }
             }

@@ -1,8 +1,11 @@
 ﻿using ElectronicsModel.Library.Dtos;
 using ElectronicsModel.Library.Models;
 using ElectronicsORM.Library.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,20 +42,20 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool DeleteDeliveryBySalesOrder(int salesOrderId)
         {
-            var deliveryToDelete = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId);
+            var deliveryToDelete = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId).FirstOrDefault();
             _electronicsDbContext.Remove(deliveryToDelete);
             return Save();
         }
 
         public bool DeliveryExists(int salesOrderId)
         {
-            return _electronicsDbContext.Delivery.Any(d => d.SalesOrderId  == salesOrderId);
+            return _electronicsDbContext.Delivery.Any(d => d.SalesOrderId == salesOrderId);
 
         }
 
         public ICollection<Delivery> GetDeliveries()
         {
-            var deliveries = _electronicsDbContext.Delivery.OrderBy(d => d.CustomerId).OrderBy(d => d.SalesOrder.OrderDate).ToList();
+            var deliveries = _electronicsDbContext.Delivery.OrderByDescending(d => d.SalesOrderId).ThenBy(d => d.SalesOrder.OrderDate).ToList();
             return deliveries;
         }
 
@@ -76,14 +79,17 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool UpdateDelivery(Delivery delivery)
         {
-            _electronicsDbContext.Update(delivery);
+            //DeleteDeliveryBySalesOrder(delivery.SalesOrderId);
+            //CreateDelivery(delivery);
+            //_electronicsDbContext.Update(delivery);
+            //_electronicsDbContext.Delivery.FromSqlInterpolated($"UPDATE [dbo].[Delivery] SET [PostalCodeId] = {delivery.PostalCodeId},[Address] = {delivery.Address},[SendDate] = {delivery.SendDate},[CustomerId] = {delivery.CustomerId} WHERE SalesOrderId = {delivery.SalesOrderId}");
             return Save();
         }
 
         public bool Save()
         {
-            var rowsChanged = _electronicsDbContext.SaveChanges();
-            return rowsChanged >= 0;
+            int rowsChanged = _electronicsDbContext.SaveChanges();
+            return rowsChanged >= 0;          
         }
     }
 }

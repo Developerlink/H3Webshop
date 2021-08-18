@@ -26,7 +26,7 @@ namespace ElectronicsORM.Library
         public DbSet<SalesOrder> SalesOrder { get; set; }
         public DbSet<Store> Store { get; set; }
         public DbSet<StoreProduct> StoreProduct { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,7 @@ namespace ElectronicsORM.Library
             {
                 o.HasKey(o => new { o.SalesOrderId, o.ProductId });
 
+                // configures many-to-many relationship
                 o.HasOne(o => o.SalesOrder)
                 .WithMany(s => s.OrderLines)
                 .HasForeignKey(o => o.SalesOrderId);
@@ -47,6 +48,7 @@ namespace ElectronicsORM.Library
             {
                 st.HasKey(st => new { st.StoreId, st.ProductId });
 
+                // configures many-to-many relationship
                 st.HasOne(st => st.Store)
                 .WithMany(store => store.StoreProducts)
                 .HasForeignKey(st => st.StoreId);
@@ -56,7 +58,19 @@ namespace ElectronicsORM.Library
                 .HasForeignKey(st => st.ProductId);
             });
 
-            modelBuilder.Entity<Delivery>().HasKey(d => new { d.SalesOrderId, d.CustomerId, d.PostalCodeId });
+            modelBuilder.Entity<Delivery>(d =>
+            {
+                d.HasKey(d => new { d.SalesOrderId, d.CustomerId, d.PostalCodeId });
+
+                // configures one-to-many relationship
+                d.HasOne(d => d.Customer)
+                .WithMany(c => c.Deliveries)
+                .HasForeignKey(d => d.CustomerId);
+
+                d.HasOne(d => d.PostalCode)
+                .WithMany(p => p.Deliveries)
+                .HasForeignKey(d => d.PostalCodeId);
+            });
 
             modelBuilder.Entity<PostalCode>().HasKey(p => p.PostalCodeId);
         }

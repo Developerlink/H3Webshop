@@ -21,9 +21,9 @@ namespace ElectronicsORM.Library.Repositories.EF
             return Save();
         }
 
-        public bool DeleteStoreProduct(int storeId, int productId)
+        public bool DeleteStoreProduct(StoreProduct storeProduct)
         {
-            var storeProductsToDelete = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId && s.ProductId == productId).ToList();
+            var storeProductsToDelete = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeProduct.StoreId && s.ProductId == storeProduct.ProductId).ToList();
             _electronicsDbContext.RemoveRange(storeProductsToDelete);
             return Save();
         }
@@ -66,9 +66,9 @@ namespace ElectronicsORM.Library.Repositories.EF
             return storeProducts;
         }
 
-        public bool StoreProductExists(int storeId, int productId)
+        public bool StoreProductExists(StoreProduct storeProduct)
         {
-            return _electronicsDbContext.StoreProduct.Any(s => s.StoreId == storeId && s.ProductId == productId);
+            return _electronicsDbContext.StoreProduct.Any(s => s.StoreId == storeProduct.StoreId && s.ProductId == storeProduct.ProductId);
         }
 
         public bool UpdateStoreProduct(StoreProduct storeProduct)

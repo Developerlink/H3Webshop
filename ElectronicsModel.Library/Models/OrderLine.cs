@@ -10,7 +10,7 @@ namespace ElectronicsModel.Library.Models
         public int SalesOrderId { get; set; }
         public int ProductId { get; set; }
         public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        public Int16 Quantity { get; set; }
 
 
         public virtual SalesOrder SalesOrder { get; set; }

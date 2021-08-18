@@ -117,11 +117,6 @@ namespace ElectronicsAPI.Controllers
 
             if (!ModelState.IsValid)
             {
-                return StatusCode(404, ModelState);
-            }
-
-            if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
             }
 

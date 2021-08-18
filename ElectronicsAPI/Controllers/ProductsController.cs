@@ -15,12 +15,14 @@ namespace ElectronicsAPI.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IOrderLineRepository _orderLineRepository;
+        private readonly IStoreProductRepository _storeProductRepository;
 
-        public ProductsController(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IOrderLineRepository orderLineRepository)
+        public ProductsController(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IOrderLineRepository orderLineRepository, IStoreProductRepository storeProductRepository)
         {
             _productRepository = productRepository;
             _productTypeRepository = productTypeRepository;
             _orderLineRepository = orderLineRepository;
+            _storeProductRepository = storeProductRepository;
         }
 
         // GET: <ProductsController>
@@ -117,11 +119,6 @@ namespace ElectronicsAPI.Controllers
 
             if (!ModelState.IsValid)
             {
-                return StatusCode(404, ModelState);
-            }
-
-            if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
             }
 
@@ -150,9 +147,30 @@ namespace ElectronicsAPI.Controllers
                 return StatusCode(409, ModelState);
             }
 
+            var orderLinesToDelete = _orderLineRepository.GetOrderLinesFromProduct(productId);
+            var storeProductsToDelete = _storeProductRepository.GetStoreProductsFromProduct(productId);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (orderLinesToDelete.Count > 0)
+            {
+                if (!_orderLineRepository.DeleteOrderLinesByProduct(productId))
+                {
+                    ModelState.AddModelError("", $"Something went wrong deleting orderlines with Product with Id { productId }");
+                    return StatusCode(500, ModelState);
+                }
+            }
+
+            if (storeProductsToDelete.Count > 0)
+            {
+                if (!_storeProductRepository.DeleteStoreProductByProduct(productId))
+                {
+                    ModelState.AddModelError("", $"Something went wrong deleting store products by Product with Id { productId }");
+                    return StatusCode(500, ModelState);
+                }
             }
 
             if (!_productRepository.DeleteProduct(productId))

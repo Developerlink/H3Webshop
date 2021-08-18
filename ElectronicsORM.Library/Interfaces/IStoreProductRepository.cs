@@ -11,14 +11,13 @@ namespace ElectronicsORM.Library.Interfaces
         ICollection<StoreProduct> GetStoreProducts();
         ICollection<StoreProduct> GetStoreProductsFromProduct(int productId);
         ICollection<StoreProduct> GetStoreProductsFromStore(int storeId);
-        StoreProduct GetStoreProduct(int storeId, int productId);
-        bool StoreProductExists(int storeId, int productId);
+        bool StoreProductExists(StoreProduct storeProduct);
 
 
         bool CreateStoreProduct(StoreProduct storeProduct);
         bool UpdateStoreProduct(StoreProduct storeProduct);
         bool DeleteStoreProductByProduct(int productId);
         bool DeleteStoreProductsByStore(int storeId);
-        bool DeleteStoreProduct(int storeId, int productId);
+        bool DeleteStoreProduct(StoreProduct storeProduct);
     }
 }

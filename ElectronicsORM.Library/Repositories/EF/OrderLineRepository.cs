@@ -23,10 +23,9 @@ namespace ElectronicsORM.Library.Repositories.EF
             return Save();
         }
 
-        public bool DeleteOrderLine(int salesOrderId, int productId)
+        public bool DeleteOrderLine(OrderLine orderLine)
         {
-            var orderLineToDelete = _electronicsDbContext.OrderLine.Where(o => o.SalesOrderId == salesOrderId && o.ProductId == productId);
-            _electronicsDbContext.Remove(orderLineToDelete);
+            _electronicsDbContext.Remove(orderLine);
             return Save();
         }
 
@@ -44,15 +43,9 @@ namespace ElectronicsORM.Library.Repositories.EF
             return Save();
         }
 
-        public OrderLine GetOrderLine(int salesOrderId, int productId)
-        {
-            var orderLine = _electronicsDbContext.OrderLine.Where(o => o.SalesOrderId == salesOrderId && o.ProductId == o.ProductId).FirstOrDefault();
-            return orderLine;
-        }
-
         public ICollection<OrderLine> GetOrderLines()
         {
-            var orderLines = _electronicsDbContext.OrderLine.OrderBy(o => o.SalesOrderId).ToList();
+            var orderLines = _electronicsDbContext.OrderLine.ToList();
             return orderLines;
         }
 
@@ -68,9 +61,9 @@ namespace ElectronicsORM.Library.Repositories.EF
             return orderLines;
         }
 
-        public bool OrderLineExists(int salesOrderId, int productId)
+        public bool OrderLineExists(OrderLine orderLine)
         {
-            return _electronicsDbContext.OrderLine.Any(o => o.SalesOrderId == salesOrderId && o.ProductId == productId);
+            return _electronicsDbContext.OrderLine.Any(o => o.SalesOrderId == orderLine.SalesOrderId && o.ProductId == orderLine.ProductId);
         }
 
         public bool UpdateOrderLine(OrderLine orderLine)

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE Delivery (
- SalesOrderId int not null,
+ SalesOrderId int unique not null,
  CustomerId int not null,
  PostalCodeId int not null,
  Address nvarchar(100),
@@ -7,5 +7,5 @@
  foreign key (SalesOrderId) references SalesOrder(Id),
  foreign key (PostalCodeId) references PostalCode(PostalCodeId),
  foreign key (CustomerId) references Customer(Id),
- constraint Pk_Delivery primary key(SalesOrderId, CustomerId, PostalCodeId)
+ constraint Pk_Delivery primary key(SalesOrderId)
 );
