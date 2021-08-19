@@ -1,7 +1,10 @@
+using ElectronicsAPI.Helpers;
+using ElectronicsAPI.Services;
 using ElectronicsORM.Library;
 using ElectronicsORM.Library.Interfaces;
 using ElectronicsORM.Library.Repositories.EF;
 using ElectronicsORM.Library.Repositories.MO;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +35,13 @@ namespace ElectronicsAPI
         {
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            // configure basic authentication
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
 
             var connectionString = "";
 
@@ -100,6 +110,7 @@ namespace ElectronicsAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
