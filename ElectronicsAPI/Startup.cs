@@ -47,7 +47,7 @@ namespace ElectronicsAPI
             services.AddDbContext<ElectronicsDbContext>(cnn => cnn.UseSqlServer(connectionString));
             services.AddSwaggerGen();
 
-            string ormChocie = "MO";
+            string ormChocie = "EF";
 
             if (ormChocie == "EF")
             {

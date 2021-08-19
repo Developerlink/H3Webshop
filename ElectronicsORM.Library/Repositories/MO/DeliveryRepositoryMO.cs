@@ -180,7 +180,7 @@ namespace ElectronicsORM.Library.Repositories.MO
         {
             var deliveries = new List<Delivery>();
 
-            string query = "SELECT [SalesOrderId],[PostalCodeId],[Address],[SendDate],[CustomerId] FROM[dbo].[Delivery]";
+            string query = "SELECT [SalesOrderId],[PostalCodeId],[Address],[SendDate],[CustomerId] FROM[dbo].[Delivery] ORDER BY SalesOrderId DESC ";
             SqlCommand cmd = new SqlCommand(query, _dbConn);
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
@@ -342,10 +342,10 @@ namespace ElectronicsORM.Library.Repositories.MO
         {
             bool result = false;
             string query = "UPDATE [dbo].[Delivery] SET " +
-                ",[PostalCodeId] = @PostalCodeId" +
-                ",[Address] = $Address" +
-                ",[SendDate] = @SendDate" +
-                ",[CustomerId] = @CustomerId" +
+                "[PostalCodeId] = @PostalCodeId ," +
+                "[Address] = @Address ," +
+                "[SendDate] = @SendDate ," +
+                "[CustomerId] = @CustomerId " +
                 "WHERE SalesOrderId=@SalesOrderId ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
