@@ -50,15 +50,15 @@ namespace ElectronicsAPI.Controllers
         }
 
         // GET <SalesOrdersController>/5
-        [HttpGet("{id}")]
-        public ActionResult<SalesOrderDto> GetSalesOrder(int id)
+        [HttpGet("{salesOrderId}")]
+        public ActionResult<SalesOrderDto> GetSalesOrder(int salesOrderId)
         {
-            if (!_SalesOrderRepository.SalesOrderExists(id))
+            if (!_SalesOrderRepository.SalesOrderExists(salesOrderId))
             {
                 return NotFound();
             }
 
-            var salesOrder = _SalesOrderRepository.GetSalesOrder(id);
+            var salesOrder = _SalesOrderRepository.GetSalesOrder(salesOrderId);
 
             if (!ModelState.IsValid)
             {

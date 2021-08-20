@@ -45,21 +45,21 @@ namespace ElectronicsAPI
 
             var connectionString = "";
 
-            if (Environment.MachineName == "WLT02")
+            if (Environment.MachineName == "WLT02") // Home computer
             {
                 connectionString = Configuration["connectionStrings:electronicsHomeDbConnectionString"];
             }
             else
             {
-                connectionString = Configuration["connectionStrings:electronicsShcoolDbConnectionString"];
+                connectionString = Configuration["connectionStrings:electronicsSchoolDbConnectionString"];
             }
 
             services.AddDbContext<ElectronicsDbContext>(cnn => cnn.UseSqlServer(connectionString));
             services.AddSwaggerGen();
 
-            string ormChocie = "EF";
+            string ormChoice = "EF";
 
-            if (ormChocie == "EF")
+            if (ormChoice == "EF")
             {
                 services.AddScoped<ICustomerRepository, CustomerRepository>()
                     .AddScoped<IDeliveryRepository, DeliveryRepository>()

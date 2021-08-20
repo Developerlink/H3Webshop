@@ -3,22 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{A001399F-C5FE-4EEA-AD13-C357F04FC337}"
-	ProjectSection(SolutionItems) = preProject
-		SqlFiles\electronicsdb_available_key_range.txt = SqlFiles\electronicsdb_available_key_range.txt
-		SqlFiles\H3_sql_alle.sql = SqlFiles\H3_sql_alle.sql
-		SqlFiles\PostalCodes.csv = SqlFiles\PostalCodes.csv
-		SqlFiles\sql_normal_forms.txt = SqlFiles\sql_normal_forms.txt
-		SqlFiles\testing_ground_sql.sql = SqlFiles\testing_ground_sql.sql
-	EndProjectSection
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ElectronicsDB", "ElectronicsDB\ElectronicsDB.sqlproj", "{FBDF7BBB-3C87-4DA5-9EC2-0EB9486A4538}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsModel.Library", "ElectronicsModel.Library\ElectronicsModel.Library.csproj", "{9EB588A4-010C-435C-ABBA-D1A17AD89C43}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsORM.Library", "ElectronicsORM.Library\ElectronicsORM.Library.csproj", "{05DDEDAC-F28B-444B-9509-49373C6E74A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicsAPI", "ElectronicsAPI\ElectronicsAPI.csproj", "{DC757440-4B84-45AC-9806-C1D8F6E3A1DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsAPI", "ElectronicsAPI\ElectronicsAPI.csproj", "{DC757440-4B84-45AC-9806-C1D8F6E3A1DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

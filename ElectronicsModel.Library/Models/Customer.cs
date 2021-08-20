@@ -19,10 +19,8 @@ namespace ElectronicsModel.Library.Models
         public string Address { get; set; }
 
         [JsonIgnore]
-
         public virtual ICollection<Delivery> Deliveries { get; set; }
         [JsonIgnore]
-
         public virtual PostalCode PostalCode { get; set; }
     }
 }
