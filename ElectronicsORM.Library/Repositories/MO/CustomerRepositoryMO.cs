@@ -84,6 +84,37 @@ namespace ElectronicsORM.Library.Repositories.MO
             return result;
         }
 
+        public bool EmailExists(string email)
+        {
+            bool result = false;
+
+            string query = "SELECT COUNT(1) FROM Customer WHERE EmailAddress=@EmailAddress ";
+            SqlCommand cmd = new SqlCommand(query, _dbConn);
+            cmd.Parameters.Add(new SqlParameter("@EmailAddress", email));
+
+            if (_dbConn.State == System.Data.ConnectionState.Closed)
+            {
+                try
+                {
+                    // open database connection
+                    _dbConn.Open();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+                int count = (int)cmd.ExecuteScalar();
+
+                if (count == 1)
+                {
+                    result = true;
+                }
+            }
+            _dbConn.Close();
+
+            return result;
+        }
         public bool DeleteCustomer(int customerId)
         {
             bool result = false;

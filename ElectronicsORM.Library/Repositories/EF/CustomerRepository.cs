@@ -2,6 +2,7 @@
 using ElectronicsORM.Library.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,8 +19,16 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool CreateCustomer(Customer customer)
         {
-            _electronicsDbContext.Add(customer);
-            return Save();
+            try
+            {
+                _electronicsDbContext.Add(customer);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public bool CustomerExists(int customerId)
@@ -27,54 +36,123 @@ namespace ElectronicsORM.Library.Repositories.EF
             return _electronicsDbContext.Customer.Any(c => c.Id == customerId);
         }
 
+        public bool EmailExists(string email)
+        {
+            return _electronicsDbContext.Customer.Any(c => c.EmailAddress == email);
+        }
+
         public bool DeleteCustomer(int customerId)
         {
-            var customerToDelete = _electronicsDbContext.Customer.Find(customerId);
-            _electronicsDbContext.Remove(customerToDelete);
-            return Save();
+            try
+            {
+                var customerToDelete = _electronicsDbContext.Customer.Find(customerId);
+                _electronicsDbContext.Remove(customerToDelete);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public bool DeleteCustomersByPostalCode(int postalCodeID)
         {
-            var customersToDelete = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeID);
-            _electronicsDbContext.RemoveRange(customersToDelete);
-            return Save();
+            try
+            {
+                var customersToDelete = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeID);
+                _electronicsDbContext.RemoveRange(customersToDelete);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public Customer GetCustomer(int customerId)
         {
-            var customer = _electronicsDbContext.Customer.Find(customerId);
-            return customer;
+            try
+            {
+                var customer = _electronicsDbContext.Customer.Find(customerId);
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public Customer GetCustomerFromSalesOrder(int salesOrderId)
         {
-            var customer = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId).Select(d => d.Customer).FirstOrDefault();
-            return customer;
+            try
+            {
+                var customer = _electronicsDbContext.Delivery.Where(d => d.SalesOrderId == salesOrderId).Select(d => d.Customer).FirstOrDefault();
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public ICollection<Customer> GetCustomers()
         {
-            var customers = _electronicsDbContext.Customer.OrderByDescending(c => c.Id).ThenBy(c => c.LastName).ToList();
-            return customers;
+            try
+            {
+                var customers = _electronicsDbContext.Customer.OrderByDescending(c => c.Id).ThenBy(c => c.LastName).ToList();
+                return customers;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public ICollection<Customer> GetCustomersFromPostalCode(int postalCodeId)
         {
-            var customers = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeId).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
-            return customers;
+            try
+            {
+                var customers = _electronicsDbContext.Customer.Where(c => c.PostalCodeId == postalCodeId).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList();
+                return customers;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public bool UpdateCustomer(Customer customer)
         {
-            _electronicsDbContext.Update(customer);
-            return Save();
+            try
+            {
+                _electronicsDbContext.Update(customer);
+                return Save();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public bool Save()
         {
-            var rowsChanged = _electronicsDbContext.SaveChanges();
-            return rowsChanged >= 0;
+            try
+            {
+                var rowsChanged = _electronicsDbContext.SaveChanges();
+                return rowsChanged >= 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }

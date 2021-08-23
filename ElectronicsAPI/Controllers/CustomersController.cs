@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
-
 
 namespace ElectronicsAPI.Controllers
 {
@@ -38,8 +38,14 @@ namespace ElectronicsAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (customers == null)
+            {
+                ModelState.AddModelError("", $"Something went wrong trying to retrieve customers");
+                return StatusCode(500, ModelState);
+            }
+
             var customerDtos = new List<CustomerDto>();
-            foreach(var customer in customers)
+            foreach (var customer in customers)
             {
                 var customerDto = new CustomerDto(customer);
                 customerDtos.Add(customerDto);
@@ -52,7 +58,7 @@ namespace ElectronicsAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<CustomerDto> GetCustomer(int id)
         {
-            if(!_customerRepository.CustomerExists(id))
+            if (!_customerRepository.CustomerExists(id))
             {
                 return NotFound();
             }
@@ -62,6 +68,12 @@ namespace ElectronicsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (customer == null)
+            {
+                ModelState.AddModelError("", "Something went wrong when trying to retrieve customer.");
+                return StatusCode(500, ModelState);
             }
 
             var customerDto = new CustomerDto(customer);
@@ -76,6 +88,12 @@ namespace ElectronicsAPI.Controllers
             if (customer == null)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (_customerRepository.EmailExists(customer.EmailAddress))
+            {
+                ModelState.AddModelError("", "That email already exists!");
+                return StatusCode(500, ModelState);
             }
 
             if (!_postalCodeRepository.PostalCodeExists(customer.PostalCodeId))
@@ -122,6 +140,12 @@ namespace ElectronicsAPI.Controllers
                 ModelState.AddModelError("", "Customer does not exist!");
             }
 
+            if (_customerRepository.EmailExists(customer.EmailAddress))
+            {
+                ModelState.AddModelError("", "That email already exists!");
+                return StatusCode(500, ModelState);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -164,6 +188,6 @@ namespace ElectronicsAPI.Controllers
             }
 
             return NoContent();
-        }        
+        }
     }
 }

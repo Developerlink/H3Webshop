@@ -13,6 +13,7 @@ namespace ElectronicsORM.Library.Interfaces
         Customer GetCustomer(int customerId);
         Customer GetCustomerFromSalesOrder(int salesOrderId);
         bool CustomerExists(int customerId);
+        bool EmailExists(string email);
 
 
         bool CreateCustomer(Customer customer);

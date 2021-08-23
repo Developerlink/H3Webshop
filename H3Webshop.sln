@@ -11,6 +11,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsORM.Library", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectronicsAPI", "ElectronicsAPI\ElectronicsAPI.csproj", "{DC757440-4B84-45AC-9806-C1D8F6E3A1DB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{805B0F54-7917-4BE4-B1A8-604A2B35E03F}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\3-lags arkitekturen.odt = Documentation\3-lags arkitekturen.odt
+		Documentation\electronicsdb_available_key_range.txt = Documentation\electronicsdb_available_key_range.txt
+		Documentation\evaluation_presentation.odp = Documentation\evaluation_presentation.odp
+		Documentation\H3_sql_alle.sql = Documentation\H3_sql_alle.sql
+		Documentation\H3ElectronicsClassDiagram.drawio = Documentation\H3ElectronicsClassDiagram.drawio
+		Documentation\H3ElectronicsClassDiagram.png = Documentation\H3ElectronicsClassDiagram.png
+		Documentation\H3ElectronicsERDiagram.png = Documentation\H3ElectronicsERDiagram.png
+		Documentation\ORM (Object Relationel Mappre).odt = Documentation\ORM (Object Relationel Mappre).odt
+		Documentation\PostalCodes.csv = Documentation\PostalCodes.csv
+		Documentation\REST API.odt = Documentation\REST API.odt
+		Documentation\sql_normal_forms.txt = Documentation\sql_normal_forms.txt
+		Documentation\testing_ground_sql.sql = Documentation\testing_ground_sql.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
