@@ -11,7 +11,7 @@ namespace ElectronicsORM.Library.Interfaces
     {
         ICollection<Employee> GetEmployees();
         ICollection<Employee> GetEmployeesFromDepartment(int departmentId);
-        ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeID);
+        ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeId);
         Employee GetEmployee(int employeeId);
         bool EmployeeExists(int employeeId);
 

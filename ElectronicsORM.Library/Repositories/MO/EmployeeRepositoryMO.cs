@@ -344,7 +344,7 @@ namespace ElectronicsORM.Library.Repositories.MO
             return employees;
         }
 
-        public ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeID)
+        public ICollection<Employee> GetEmployeesFromPostalCode(int postalCodeId)
         {
             var employees = new List<Employee>();
 
@@ -353,7 +353,7 @@ namespace ElectronicsORM.Library.Repositories.MO
                 "WHERE PostalCodeId=@Id ";
 
             SqlCommand cmd = new SqlCommand(query, _dbConn);
-            cmd.Parameters.Add(new SqlParameter("Id", postalCodeID));
+            cmd.Parameters.Add(new SqlParameter("Id", postalCodeId));
 
             if (_dbConn.State == System.Data.ConnectionState.Closed)
             {

@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 		Documentation\testing_ground_sql.sql = Documentation\testing_ground_sql.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectronicsWebUI", "ElectronicsWebUI\ElectronicsWebUI.csproj", "{66A424A4-464B-4C07-83FC-CC8DF345285C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{DC757440-4B84-45AC-9806-C1D8F6E3A1DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC757440-4B84-45AC-9806-C1D8F6E3A1DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC757440-4B84-45AC-9806-C1D8F6E3A1DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66A424A4-464B-4C07-83FC-CC8DF345285C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66A424A4-464B-4C07-83FC-CC8DF345285C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66A424A4-464B-4C07-83FC-CC8DF345285C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66A424A4-464B-4C07-83FC-CC8DF345285C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

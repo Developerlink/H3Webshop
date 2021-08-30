@@ -19,6 +19,6 @@ namespace ElectronicsORM.Library.Interfaces
         bool CreateCustomer(Customer customer);
         bool UpdateCustomer(Customer customer);
         bool DeleteCustomer(int customerId);
-        bool DeleteCustomersByPostalCode(int postalCodeID);
+        bool DeleteCustomersByPostalCode(int postalCodeId);
     }
 }
