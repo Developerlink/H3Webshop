@@ -2,6 +2,7 @@
 using ElectronicsModel.Library.Models;
 using ElectronicsORM.Library.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace ElectronicsAPI.Controllers
 
         // GET: <ProductsController>
         [HttpGet]
+
         public ActionResult<IEnumerable<ProductDto>> GetProducts()
         {
             var products = _productRepository.GetProducts();

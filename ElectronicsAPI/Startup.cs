@@ -85,6 +85,17 @@ namespace ElectronicsAPI
                     .AddScoped<IStoreRepository, StoreRepositoryMO>()
                     .AddScoped<IPostalCodeRepository, PostalCodeRepositoryMO>();
             }
+
+            //services.AddCors(); // Make sure you call this previous to AddMvc
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "corsPolicy",
+                                  builder =>
+                                  {
+                                      builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+                                  });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +105,9 @@ namespace ElectronicsAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+
+            app.UseCorsMiddleware();
 
             app.UseHttpsRedirection();
 
@@ -109,6 +123,8 @@ namespace ElectronicsAPI
             });
 
             app.UseRouting();
+
+            app.UseCors("corsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
