@@ -18,7 +18,7 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public ProductType GetProductType(int productTypeId)
         {
-            throw new NotImplementedException();
+            return _electronicsDbContext.ProductType.Find(productTypeId);
         }
 
         public bool ProductTypeExists(int productTypeId)

@@ -85,6 +85,8 @@ namespace ElectronicsAPI.Controllers
                 return NotFound("Product type was not found!");
             }
 
+            product.ProductType = _productTypeRepository.GetProductType(product.ProductTypeId);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

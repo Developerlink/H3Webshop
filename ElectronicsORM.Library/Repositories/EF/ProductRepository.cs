@@ -1,6 +1,7 @@
 ﻿using ElectronicsModel.Library.Dtos;
 using ElectronicsModel.Library.Models;
 using ElectronicsORM.Library.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,11 @@ namespace ElectronicsORM.Library.Repositories.EF
 
         public bool CreateProduct(Product product)
         {
+            // Alternatively:
+            //product.ProductType = null;
             _electronicsDbContext.Add(product);
+            _electronicsDbContext.Entry(product.ProductType).State = EntityState.Unchanged;
+
             return Save();
         }
 
@@ -40,30 +45,31 @@ namespace ElectronicsORM.Library.Repositories.EF
         public Product GetProduct(int productId)
         {
             var product = _electronicsDbContext.Product.Find(productId);
+            product.ProductType = _electronicsDbContext.ProductType.Find(product.ProductTypeId);
             return product;
         }
 
         public ICollection<Product> GetProducts()
         {
-            var products = _electronicsDbContext.Product.OrderByDescending(p => p.Id).ToList();
+            var products = _electronicsDbContext.Product.Include(p => p.ProductType).OrderByDescending(p => p.Id).ToList();
             return products;
         }
 
         public ICollection<Product> GetProductsFromProductType(int productTypeId)
         {
-            var products = _electronicsDbContext.Product.Where(p => p.ProductTypeId == productTypeId).ToList();
+            var products = _electronicsDbContext.Product.Include(p => p.ProductType).Where(p => p.ProductTypeId == productTypeId).ToList();
             return products;
         }
 
         public ICollection<Product> GetProductsFromSalesOrder(int salesOrderId)
         {
-            var products = _electronicsDbContext.OrderLine.Where(o => o.SalesOrderId == salesOrderId).Select(o => o.Product).ToList();
+            var products = _electronicsDbContext.OrderLine.Where(o => o.SalesOrderId == salesOrderId).Select(o => o.Product).Include(p => p.ProductType).ToList();
             return products;
         }
 
         public ICollection<Product> GetProductsFromStore(int storeId)
         {
-            var products = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId).Select(s => s.Product).ToList();
+            var products = _electronicsDbContext.StoreProduct.Where(s => s.StoreId == storeId).Select(s => s.Product).Include(p => p.ProductType).ToList();
             return products;
         }
 
