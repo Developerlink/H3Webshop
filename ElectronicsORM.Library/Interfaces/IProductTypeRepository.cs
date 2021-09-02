@@ -7,6 +7,7 @@ namespace ElectronicsORM.Library.Interfaces
 {
     public interface IProductTypeRepository
     {
+        ICollection<ProductType> GetProductTypes();
         ProductType GetProductType(int productTypeId);
         bool ProductTypeExists(int productTypeId);
     }

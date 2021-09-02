@@ -22,7 +22,6 @@ const ProductList = (props) => {
           action
         >
           <h6 id={product.id}>{product.name}</h6>
-          <p id={product.id}>{product.price} kr</p>
           <p id={product.id}>{product.productType.name}</p>
         </ListGroupItem>
       ))}

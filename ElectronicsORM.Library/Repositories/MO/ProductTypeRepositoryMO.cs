@@ -22,6 +22,11 @@ namespace ElectronicsORM.Library.Repositories.MO
             throw new NotImplementedException();
         }
 
+        public ICollection<ProductType> GetProductTypes()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool ProductTypeExists(int productTypeId)
         {
             bool result = false;

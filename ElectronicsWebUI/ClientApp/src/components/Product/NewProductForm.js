@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import styles from "./ProductForm.module.css";
 
 const newProduct = {
   id: "",
@@ -11,21 +10,10 @@ const newProduct = {
     id: "",
     name: "",
   },
-}
+};
 
-const ProductForm = (props) => {
+const NewProductForm = (props) => {
   const [product, setProduct] = useState(newProduct);
-
-  useEffect(() => {
-    if(props.product)
-    {
-      console.log("props.product is set")
-      console.log(props.product.id);
-      setProduct(props.product);
-    } else {
-      console.log("props.product is NOT set!")
-    }
-  },[props.product])
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -42,16 +30,12 @@ const ProductForm = (props) => {
     console.log(product);
   };
 
-    const updateHandler = () => {
-    alert("Updating product");
-  };
-
-  const deleteHandler = () => {
-    alert("Deleting product");
+  const saveHandler = () => {
+    props.onSubmit();
   };
 
   return (
-    <React.Fragment>      
+    <React.Fragment>
       <Form>
         <FormGroup>
           <Label>Name</Label>
@@ -77,11 +61,10 @@ const ProductForm = (props) => {
         <FormGroup>
           <Label>Decription</Label>
           <Input
-          className={styles.listGroup}
             type="textarea"
             name="description"
             id="description"
-            value={product.description}
+            value={product.name}
             onChange={onChangeHandler}
           />
         </FormGroup>
@@ -95,26 +78,16 @@ const ProductForm = (props) => {
             step="1"
             min={0}
             max={100000}
-            value={product.price}
+            value={product.name}
             onChange={onChangeHandler}
           />
         </FormGroup>
-        <FormGroup>
-          <Label>Price</Label>
-          <Input type="hidden" name="id" value={product.id} />
-        </FormGroup>
-
-        <div>          
-          <Button onClick={updateHandler} color="info">
-            Update
-          </Button>{" "}
-          <Button onClick={deleteHandler} color="danger">
-            Delete
-          </Button>{" "}
-        </div>
       </Form>
+      <Button onClick={saveHandler} color="success">
+        Save
+      </Button>
     </React.Fragment>
   );
 };
 
-export default ProductForm;
+export default NewProductForm;

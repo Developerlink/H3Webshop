@@ -21,6 +21,11 @@ namespace ElectronicsORM.Library.Repositories.EF
             return _electronicsDbContext.ProductType.Find(productTypeId);
         }
 
+        public ICollection<ProductType> GetProductTypes()
+        {
+            return _electronicsDbContext.ProductType.ToList();
+        }
+
         public bool ProductTypeExists(int productTypeId)
         {
             return _electronicsDbContext.ProductType.Any(p => p.Id == productTypeId);
