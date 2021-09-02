@@ -11,21 +11,22 @@ const newProduct = {
     id: "",
     name: "",
   },
-}
+};
 
 const ProductForm = (props) => {
   const [product, setProduct] = useState(newProduct);
+  const [selectedOption, setSelectedOption] = useState(0);
 
   useEffect(() => {
-    if(props.product)
-    {
-      console.log("props.product is set")
+    if (props.product) {
+      console.log("props.product is set");
       console.log(props.product.id);
       setProduct(props.product);
+      setSelectedOption(props.product.productType.id)
     } else {
-      console.log("props.product is NOT set!")
+      console.log("props.product is NOT set!");
     }
-  },[props.product])
+  }, [props.product]);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -42,16 +43,29 @@ const ProductForm = (props) => {
     console.log(product);
   };
 
-    const updateHandler = () => {
+  const selectOptionHandler = (event) => {
+    const { name: productType, value: id } = event.target;
+    console.log(productType + " " + id);
+    setProduct((prevValue) => {
+      return {
+        ...prevValue,
+        [productType]: { id: id, name: ''},
+      };
+    });
+    setSelectedOption(id);
+    console.log(product);
+  };
+
+  const updateHandler = () => {
     alert("Updating product");
   };
 
   const deleteHandler = () => {
     alert("Deleting product");
-  };
+  }; 
 
   return (
-    <React.Fragment>      
+    <React.Fragment>
       <Form>
         <FormGroup>
           <Label>Name</Label>
@@ -66,18 +80,27 @@ const ProductForm = (props) => {
         </FormGroup>
         <FormGroup>
           <Label>Select Product Type</Label>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <Input
+            type="select"
+            name="productType"
+            value={selectedOption}
+            onChange={selectOptionHandler}
+          >
+            {props.productTypes.map((productType) => (
+              <option
+                onClick={selectOptionHandler}
+                key={productType.id}
+                value={productType.id}
+              >
+                {productType.name}
+              </option>
+            ))}
           </Input>
         </FormGroup>
         <FormGroup>
           <Label>Decription</Label>
           <Input
-          className={styles.listGroup}
+            className={styles.listGroup}
             type="textarea"
             name="description"
             id="description"
@@ -100,11 +123,10 @@ const ProductForm = (props) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Price</Label>
-          <Input type="hidden" name="id" value={product.id} />
+          <Label type="hidden" name="id" value={product.id} />
         </FormGroup>
 
-        <div>          
+        <div>
           <Button onClick={updateHandler} color="info">
             Update
           </Button>{" "}

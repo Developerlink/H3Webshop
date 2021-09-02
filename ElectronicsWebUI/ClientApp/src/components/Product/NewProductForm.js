@@ -7,13 +7,14 @@ const newProduct = {
   description: "",
   price: "",
   productType: {
-    id: "",
+    id: 1,
     name: "",
   },
 };
 
 const NewProductForm = (props) => {
   const [product, setProduct] = useState(newProduct);
+  const [selectedOption, setSelectedOption] = useState(1);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
@@ -30,8 +31,21 @@ const NewProductForm = (props) => {
     console.log(product);
   };
 
+  const selectOptionHandler = (event) => {
+    const { name: productType, value: id } = event.target;
+    console.log(productType + " " + id);
+    setProduct((prevValue) => {
+      return {
+        ...prevValue,
+        [productType]: { id: id, name: ''},
+      };
+    });
+    setSelectedOption(id);
+    console.log(product);
+  };
+
   const saveHandler = () => {
-    props.onSubmit();
+    props.onSubmit(product);
   };
 
   return (
@@ -49,13 +63,22 @@ const NewProductForm = (props) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Select Product Type</Label>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+        <Label>Select Product Type</Label>
+          <Input
+            type="select"
+            name="productType"
+            value={selectedOption}
+            onChange={selectOptionHandler}
+          >
+            {props.productTypes.map((productType) => (
+              <option
+                onClick={selectOptionHandler}
+                key={productType.id}
+                value={productType.id}
+              >
+                {productType.name}
+              </option>
+            ))}
           </Input>
         </FormGroup>
         <FormGroup>
@@ -64,7 +87,7 @@ const NewProductForm = (props) => {
             type="textarea"
             name="description"
             id="description"
-            value={product.name}
+            value={product.description}
             onChange={onChangeHandler}
           />
         </FormGroup>
@@ -78,7 +101,7 @@ const NewProductForm = (props) => {
             step="1"
             min={0}
             max={100000}
-            value={product.name}
+            value={product.price}
             onChange={onChangeHandler}
           />
         </FormGroup>

@@ -1,21 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  Col,
-  Row,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input,
-  Label,
-  Form,
-  FormGroup,
-} from "reactstrap";
+import { Col, Row, Button } from "reactstrap";
 import ProductForm from "./ProductForm";
 import ProductList from "./ProductList";
 import styles from "./Products.module.css";
-import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import { Dialog} from "@reach/dialog";
 import "@reach/dialog/styles.css";
 import NewProductForm from "./NewProductForm";
 
@@ -62,8 +50,9 @@ const Products = (props) => {
 
     try {
       const response = await fetch(url, { method: "GET", headers: headers });
-      const loadedProducts = await response.json();
-      setProducts(loadedProducts);
+      const loadedProductTypes = await response.json();
+      // console.log(loadedProductTypes);
+      setProductTypes(loadedProductTypes);
     } catch (error) {
       setError(error.message);
     }
@@ -71,8 +60,9 @@ const Products = (props) => {
 
   useEffect(() => {
     fetchProductsHandler();
+    fetchProductTypesHandler();
     console.log("Running my effect!");
-  }, [fetchProductsHandler]);
+  }, [fetchProductsHandler, fetchProductTypesHandler]);
 
   const newProductHandler = () => {
     setSelectedProduct(null);
@@ -99,7 +89,7 @@ const Products = (props) => {
     <React.Fragment>
       <div>
         <Dialog isOpen={showDialog} onDismiss={closeDialogHandler}>
-          <NewProductForm onSubmit={saveHandler} />
+          <NewProductForm onSubmit={saveHandler} productTypes={productTypes} />
         </Dialog>
       </div>
       <Row>
@@ -127,7 +117,7 @@ const Products = (props) => {
 
         <Col>
           <h1>Product</h1>
-          <ProductForm product={selectedProduct} />
+          <ProductForm product={selectedProduct} productTypes={productTypes} />
         </Col>
       </Row>
     </React.Fragment>
