@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 const newProduct = {
-  id: "",
+  id: "0",
   name: "",
   description: "",
   price: "",
@@ -12,8 +12,19 @@ const newProduct = {
   },
 };
 
+const testProduct = {
+    id: "0",
+    name: "Test PC",
+    description: "Not a real PC",
+    price: "5",
+    productType: {
+      id: 1,
+      name: "",
+    },
+  };
+
 const NewProductForm = (props) => {
-  const [product, setProduct] = useState(newProduct);
+  const [product, setProduct] = useState(testProduct);
   const [selectedOption, setSelectedOption] = useState(1);
 
   const onChangeHandler = (event) => {
@@ -50,6 +61,7 @@ const NewProductForm = (props) => {
 
   return (
     <React.Fragment>
+        <h3>New Product</h3>
       <Form>
         <FormGroup>
           <Label>Name</Label>

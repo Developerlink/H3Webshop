@@ -73,12 +73,14 @@ namespace ElectronicsAPI.Controllers
 
         // POST <ProductsController>
         [HttpPost]
-        public ActionResult PostProduct([FromBody] Product product)
+        public ActionResult PostProduct([FromBody] ProductDto productDto)
         {
-            if (product == null)
+            if (productDto == null)
             {
                 return BadRequest(ModelState);
             }
+
+            var product = new Product(productDto);
 
             if (!_productTypeRepository.ProductTypeExists(product.ProductTypeId))
             {
@@ -98,19 +100,21 @@ namespace ElectronicsAPI.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            var productDto = new ProductDto(product);
+            productDto = new ProductDto(product);
 
             return CreatedAtAction("GetProduct", new { id = productDto.Id }, productDto);
         }
 
         // PUT <ProductsController>/5
         [HttpPut("{productId}")]
-        public IActionResult UpdateProduct(int productId, [FromBody] Product product)
+        public IActionResult UpdateProduct(int productId, [FromBody] ProductDto productDto)
         {
-            if (product == null)
+            if (productDto == null)
             {
                 return BadRequest(ModelState);
             }
+
+            var product = new Product(productDto);
 
             if (productId != product.Id)
             {

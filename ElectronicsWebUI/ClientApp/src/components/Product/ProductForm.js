@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import styles from "./ProductForm.module.css";
 
-const newProduct = {
+const emptyProduct = {
   id: "",
   name: "",
   description: "",
@@ -14,7 +14,7 @@ const newProduct = {
 };
 
 const ProductForm = (props) => {
-  const [product, setProduct] = useState(newProduct);
+  const [product, setProduct] = useState(emptyProduct);
   const [selectedOption, setSelectedOption] = useState(0);
 
   useEffect(() => {
@@ -57,11 +57,13 @@ const ProductForm = (props) => {
   };
 
   const updateHandler = () => {
-    alert("Updating product");
+    props.onUpdate(product);
   };
 
   const deleteHandler = () => {
-    alert("Deleting product");
+    props.onDelete(product.id);
+    setProduct(emptyProduct);
+    setSelectedOption(0);
   }; 
 
   return (

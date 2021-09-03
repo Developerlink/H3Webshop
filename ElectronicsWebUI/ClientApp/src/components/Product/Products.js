@@ -3,7 +3,7 @@ import { Col, Row, Button } from "reactstrap";
 import ProductForm from "./ProductForm";
 import ProductList from "./ProductList";
 import styles from "./Products.module.css";
-import { Dialog} from "@reach/dialog";
+import { Dialog } from "@reach/dialog";
 import "@reach/dialog/styles.css";
 import NewProductForm from "./NewProductForm";
 
@@ -58,6 +58,77 @@ const Products = (props) => {
     }
   }, []);
 
+  const addProductHandler = async (product) => {
+    console.log(product);
+    let url = "https://localhost:44331/products";
+    let username = "test";
+    let password = "test";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(product),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa(username + ":" + password),
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {}
+
+    setShowDialog(false);
+    fetchProductsHandler();
+  };
+
+  const updateProductHandler = async (product) => {
+    console.log(product);
+    let url = "https://localhost:44331/products/" + product.id;
+    let username = "test";
+    let password = "test";
+
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(product),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa(username + ":" + password),
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {}
+
+    setShowDialog(false);
+    fetchProductsHandler();
+  };
+
+  const deleteProductHandler = async (id) => {
+    console.log(id);
+    let url = "https://localhost:44331/products/" + id;
+    let username = "test";
+    let password = "test";
+
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa(username + ":" + password),
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {}
+
+    setShowDialog(false);
+    fetchProductsHandler();
+  };
+
   useEffect(() => {
     fetchProductsHandler();
     fetchProductTypesHandler();
@@ -81,15 +152,19 @@ const Products = (props) => {
     //console.log(selectedProduct.name);
   };
 
-  const saveHandler = () => {
-    setShowDialog(false);
-  };
-
   return (
     <React.Fragment>
       <div>
-        <Dialog isOpen={showDialog} onDismiss={closeDialogHandler}>
-          <NewProductForm onSubmit={saveHandler} productTypes={productTypes} />
+        <Dialog
+          aria-labelledby="newProductDialog"
+          aria-describedby="A popup form to submit a new product"
+          isOpen={showDialog}
+          onDismiss={closeDialogHandler}
+        >
+          <NewProductForm
+            onSubmit={addProductHandler}
+            productTypes={productTypes}
+          />
         </Dialog>
       </div>
       <Row>
@@ -117,7 +192,12 @@ const Products = (props) => {
 
         <Col>
           <h1>Product</h1>
-          <ProductForm product={selectedProduct} productTypes={productTypes} />
+          <ProductForm
+            product={selectedProduct}
+            productTypes={productTypes}
+            onUpdate={updateProductHandler}
+            onDelete={deleteProductHandler}
+          />
         </Col>
       </Row>
     </React.Fragment>
