@@ -15,8 +15,8 @@ const newProduct = {
 const testProduct = {
     id: "0",
     name: "Test PC",
-    description: "Not a real PC",
-    price: "5",
+    description: "Lorem Ipsum er ganske enkelt fyldtekst fra print- og typografiindustrien. Lorem Ipsum har været standard fyldtekst siden 1500-tallet, hvor en ukendt trykker sammensatte en tilfældig spalte for at trykke en bog til sammenligning af forskellige skrifttyper. Lorem Ipsum har ikke alene overlevet fem århundreder, men har også vundet indpas i elektronisk typografi uden væsentlige ændringe",
+    price: "5000",
     productType: {
       id: 1,
       name: "",
@@ -39,7 +39,7 @@ const NewProductForm = (props) => {
       };
     });
 
-    console.log(product);
+    //console.log(product);
   };
 
   const selectOptionHandler = (event) => {

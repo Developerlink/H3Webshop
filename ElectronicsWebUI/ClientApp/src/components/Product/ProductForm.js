@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormFeedback,
+} from "reactstrap";
 import styles from "./ProductForm.module.css";
 
 const emptyProduct = {
@@ -15,14 +22,17 @@ const emptyProduct = {
 
 const ProductForm = (props) => {
   const [product, setProduct] = useState(emptyProduct);
+  const [nameIsInvalid, setNameIsInvalid] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [descriptionIsInvalid, setdescripTionIsInvalid] = useState(false);
+  const [priceIsInvalid, setPriceIsInvalid] = useState(false);
 
   useEffect(() => {
     if (props.product) {
       console.log("props.product is set");
       console.log(props.product.id);
       setProduct(props.product);
-      setSelectedOption(props.product.productType.id)
+      setSelectedOption(props.product.productType.id);
     } else {
       console.log("props.product is NOT set!");
     }
@@ -33,6 +43,28 @@ const ProductForm = (props) => {
 
     console.log(value);
 
+    if (name === "price") {
+      if (value < 0 || 100000 < value) {
+        setPriceIsInvalid(true);
+      } else {
+        setPriceIsInvalid(false);
+      }
+    }
+    if (name === "name") {
+      if (value.length < 1 || 100 < value.length) {
+        setNameIsInvalid(true);
+      } else {
+        setNameIsInvalid(false);
+      }
+    }
+    if (name === "description") {
+      if (value.length < 0 || 2500 < value.length) {
+        setdescripTionIsInvalid(true);
+      } else {
+        setdescripTionIsInvalid(false);
+      }
+    }
+
     setProduct((prevValue) => {
       return {
         ...prevValue,
@@ -40,7 +72,7 @@ const ProductForm = (props) => {
       };
     });
 
-    console.log(product);
+    //console.log(product);
   };
 
   const selectOptionHandler = (event) => {
@@ -49,7 +81,7 @@ const ProductForm = (props) => {
     setProduct((prevValue) => {
       return {
         ...prevValue,
-        [productType]: { id: id, name: ''},
+        [productType]: { id: id, name: "" },
       };
     });
     setSelectedOption(id);
@@ -64,7 +96,7 @@ const ProductForm = (props) => {
     props.onDelete(product.id);
     setProduct(emptyProduct);
     setSelectedOption(0);
-  }; 
+  };
 
   return (
     <React.Fragment>
@@ -78,7 +110,9 @@ const ProductForm = (props) => {
             placeholder="product name"
             value={product.name}
             onChange={onChangeHandler}
+            invalid={nameIsInvalid}
           />
+          <FormFeedback>The name cannot be empty or more than 100 characters</FormFeedback>
         </FormGroup>
         <FormGroup>
           <Label>Select Product Type</Label>
@@ -108,7 +142,9 @@ const ProductForm = (props) => {
             id="description"
             value={product.description}
             onChange={onChangeHandler}
+            invalid={descriptionIsInvalid}
           />
+          <FormFeedback>The description cannot be more than 2500 characters</FormFeedback>
         </FormGroup>
         <FormGroup>
           <Label>Price</Label>
@@ -122,10 +158,9 @@ const ProductForm = (props) => {
             max={100000}
             value={product.price}
             onChange={onChangeHandler}
+            invalid={priceIsInvalid}
           />
-        </FormGroup>
-        <FormGroup>
-          <Label type="hidden" name="id" value={product.id} />
+          <FormFeedback>The price amount must be valid (0-100.000)</FormFeedback>
         </FormGroup>
 
         <div>

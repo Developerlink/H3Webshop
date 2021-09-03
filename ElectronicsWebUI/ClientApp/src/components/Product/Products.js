@@ -83,7 +83,7 @@ const Products = (props) => {
   };
 
   const updateProductHandler = async (product) => {
-    console.log(product);
+    //console.log(product);
     let url = "https://localhost:44331/products/" + product.id;
     let username = "test";
     let password = "test";
@@ -99,7 +99,7 @@ const Products = (props) => {
         },
       });
       const data = await response.json();
-      console.log(data);
+      //console.log(data);
     } catch (error) {}
 
     setShowDialog(false);
@@ -156,6 +156,7 @@ const Products = (props) => {
     <React.Fragment>
       <div>
         <Dialog
+        className={styles.dialog}
           aria-labelledby="newProductDialog"
           aria-describedby="A popup form to submit a new product"
           isOpen={showDialog}
