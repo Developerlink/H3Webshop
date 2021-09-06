@@ -3,7 +3,7 @@ import ProductForm from "./ProductForm";
 import { Button } from "reactstrap";
 
 const newProduct = {
-  id: "0",
+  id: 0,
   name: "",
   description: "",
   price: "",

@@ -3,7 +3,7 @@ import ProductForm from "./ProductForm";
 import { Button } from "reactstrap";
 
 const emptyProduct = {
-  id: "0",
+  id: 0,
   name: "",
   description: "",
   price: "",
@@ -28,37 +28,45 @@ const EditProduct = (props) => {
     let productIsValid = true;
     console.log(product);
 
-    if (product.price === "") {
-      alert("The price is not set correctly");
-      productIsValid = false;
-    } else if (product.price < 0 || 100000 < product.price) {
-      productIsValid = false;
-      alert("The price is not set correctly");
-    }
-    if (product.description === "") {
-      if (product.description.length > 2500) {
+    if (product.id === 0) {
+      alert("No product has been selected");
+    } else {
+      if (product.price === "") {
+        alert("The price is not set correctly");
         productIsValid = false;
-        alert("The description is too long");
+      } else if (product.price < 0 || 100000 < product.price) {
+        productIsValid = false;
+        alert("The price is not set correctly");
       }
-    }
-    if (product.name === "") {
-      alert("The name is missing");
-      productIsValid = false;
-    } else if (100 < product.name.length) {
-      productIsValid = false;
-      alert("The name is too long");
-    }
+      if (product.description === "") {
+        if (product.description.length > 2500) {
+          productIsValid = false;
+          alert("The description is too long");
+        }
+      }
+      if (product.name === "") {
+        alert("The name is missing");
+        productIsValid = false;
+      } else if (100 < product.name.length) {
+        productIsValid = false;
+        alert("The name is too long");
+      }
 
-    if (productIsValid) {
-      props.onUpdate(product);
+      if (productIsValid) {
+        props.onUpdate(product);
+      }
     }
   };
 
   const deleteHandler = () => {
-    var result = window.confirm("Are you sure you want to delete?");
-    if (result === true) {
-      props.onDelete(product.id);
-      setProduct(emptyProduct);
+    if (product.id === 0) {
+      alert("No product has been selected");
+    } else {
+      var result = window.confirm("Are you sure you want to delete?");
+      if (result === true) {
+        props.onDelete(product.id);
+        setProduct(emptyProduct);
+      }
     }
   };
 

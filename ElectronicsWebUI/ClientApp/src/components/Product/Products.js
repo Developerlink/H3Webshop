@@ -7,6 +7,10 @@ import "@reach/dialog/styles.css";
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
 
+// accessability - authentication
+// localization - language
+// dark mode
+
 const Products = (props) => {
   const [products, setProducts] = useState([]);
   const [productTypes, setProductTypes] = useState([]);
