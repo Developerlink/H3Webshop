@@ -3,9 +3,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 import styles from "./ProductList.module.css";
 
 const ProductList = (props) => {
-  //console.log("inside productlist props");
-  //console.log(props.products);
-
+  
   const onSelectHandler = (event) => {
     props.onSelectProduct(parseInt(event.target.id));
   };

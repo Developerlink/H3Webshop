@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormFeedback,
-} from "reactstrap";
+import { Form, FormGroup, Label, Input, FormFeedback } from "reactstrap";
 import styles from "./ProductForm.module.css";
 
 const emptyProduct = {
@@ -15,7 +8,7 @@ const emptyProduct = {
   description: "",
   price: "",
   productType: {
-    id: "",
+    id: 1,
     name: "",
   },
 };
@@ -29,73 +22,72 @@ const ProductForm = (props) => {
 
   useEffect(() => {
     if (props.product) {
-      console.log("props.product is set");
-      console.log(props.product.id);
+      console.log("props.product is set inside form");
       setProduct(props.product);
       setSelectedOption(props.product.productType.id);
-    } else {
-      console.log("props.product is NOT set!");
-    }
-  }, [props.product]);
 
-  const onChangeHandler = (event) => {
-    const { name, value } = event.target;
-
-    console.log(value);
-
-    if (name === "price") {
-      if (value < 0 || 100000 < value) {
+      if (props.product.price < 0 || 100000 < props.product.price) {
         setPriceIsInvalid(true);
       } else {
         setPriceIsInvalid(false);
       }
-    }
-    if (name === "name") {
-      if (value.length < 1 || 100 < value.length) {
-        setNameIsInvalid(true);
-      } else {
-        setNameIsInvalid(false);
-      }
-    }
-    if (name === "description") {
-      if (value.length < 0 || 2500 < value.length) {
+      if (
+        props.product.description.length < 0 ||
+        2500 < props.product.description.length
+      ) {
         setdescripTionIsInvalid(true);
       } else {
         setdescripTionIsInvalid(false);
       }
+    } else {
+      //console.log("props.product is NOT set!");
+      setSelectedOption(0);
     }
 
-    setProduct((prevValue) => {
-      return {
-        ...prevValue,
-        [name]: value,
-      };
-    });
+  }, [props]);
 
-    //console.log(product);
-  };
+  const onChangeHandler = async (event) => {
+    const { name, value } = event.target;
+    //console.log(value);
 
-  const selectOptionHandler = (event) => {
-    const { name: productType, value: id } = event.target;
-    console.log(productType + " " + id);
-    setProduct((prevValue) => {
-      return {
-        ...prevValue,
-        [productType]: { id: id, name: "" },
-      };
-    });
-    setSelectedOption(id);
-    console.log(product);
-  };
+    if (name === "productType") {
+      props.setProduct((prevValue) => {
+        return {
+          ...prevValue,
+          [name]: { id: value, name: "" },
+        };
+      });
+      setSelectedOption(value);
+    } else {
+      if (name === "price") {
+        if (value < 0 || 100000 < value) {
+          setPriceIsInvalid(true);
+        } else {
+          setPriceIsInvalid(false);
+        }
+      }
+      if (name === "name") {
+        if (value.length < 1 || 100 < value.length) {
+          setNameIsInvalid(true);
+        } else {
+          setNameIsInvalid(false);
+        }
+      }
+      if (name === "description") {
+        if (value.length < 0 || 2500 < value.length) {
+          setdescripTionIsInvalid(true);
+        } else {
+          setdescripTionIsInvalid(false);
+        }
+      }
 
-  const updateHandler = () => {
-    props.onUpdate(product);
-  };
-
-  const deleteHandler = () => {
-    props.onDelete(product.id);
-    setProduct(emptyProduct);
-    setSelectedOption(0);
+      props.setProduct((prevValue) => {
+        return {
+          ...prevValue,
+          [name]: value,
+        };
+      });
+    }
   };
 
   return (
@@ -112,7 +104,9 @@ const ProductForm = (props) => {
             onChange={onChangeHandler}
             invalid={nameIsInvalid}
           />
-          <FormFeedback>The name cannot be empty or more than 100 characters</FormFeedback>
+          <FormFeedback>
+            The name cannot be empty or more than 100 characters
+          </FormFeedback>
         </FormGroup>
         <FormGroup>
           <Label>Select Product Type</Label>
@@ -120,11 +114,11 @@ const ProductForm = (props) => {
             type="select"
             name="productType"
             value={selectedOption}
-            onChange={selectOptionHandler}
+            onChange={onChangeHandler}
           >
             {props.productTypes.map((productType) => (
               <option
-                onClick={selectOptionHandler}
+                onClick={onChangeHandler}
                 key={productType.id}
                 value={productType.id}
               >
@@ -144,7 +138,9 @@ const ProductForm = (props) => {
             onChange={onChangeHandler}
             invalid={descriptionIsInvalid}
           />
-          <FormFeedback>The description cannot be more than 2500 characters</FormFeedback>
+          <FormFeedback>
+            The description cannot be more than 2500 characters
+          </FormFeedback>
         </FormGroup>
         <FormGroup>
           <Label>Price</Label>
@@ -160,17 +156,10 @@ const ProductForm = (props) => {
             onChange={onChangeHandler}
             invalid={priceIsInvalid}
           />
-          <FormFeedback>The price amount must be valid (0-100.000)</FormFeedback>
+          <FormFeedback>
+            The price amount must be valid (0-100.000)
+          </FormFeedback>
         </FormGroup>
-
-        <div>
-          <Button onClick={updateHandler} color="info">
-            Update
-          </Button>{" "}
-          <Button onClick={deleteHandler} color="danger">
-            Delete
-          </Button>{" "}
-        </div>
       </Form>
     </React.Fragment>
   );

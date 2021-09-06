@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Col, Row, Button } from "reactstrap";
-import ProductForm from "./ProductForm";
 import ProductList from "./ProductList";
 import styles from "./Products.module.css";
 import { Dialog } from "@reach/dialog";
 import "@reach/dialog/styles.css";
-import NewProductForm from "./NewProductForm";
+import AddProduct from "./AddProduct";
+import EditProduct from "./EditProduct";
 
 const Products = (props) => {
   const [products, setProducts] = useState([]);
@@ -59,27 +59,55 @@ const Products = (props) => {
   }, []);
 
   const addProductHandler = async (product) => {
+    let productIsValid = true;
     console.log(product);
-    let url = "https://localhost:44331/products";
-    let username = "test";
-    let password = "test";
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(product),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa(username + ":" + password),
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {}
+    if (product.price === "") {
+      alert("The price is not set correctly");
+      productIsValid = false;
+    } else if (product.price < 0 || 100000 < product.price) {
+      productIsValid = false;
+      alert("The price is not set correctly");
+    }
+    if (product.description === "") {
+      if (product.description.length > 2500) {
+        productIsValid = false;
+        alert("The description is too long");
+      }
+    }
+    if (product.name === "") {
+      alert("The name is missing");
+      productIsValid = false;
+    } else if (100 < product.name.length) {
+      productIsValid = false;
+      alert("The name is too long");
+    }
 
-    setShowDialog(false);
-    fetchProductsHandler();
+    if (productIsValid) {
+      //console.log(product);
+      let url = "https://localhost:44331/products";
+      let username = "test";
+      let password = "test";
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          body: JSON.stringify(product),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa(username + ":" + password),
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {}
+
+      setShowDialog(false);
+      fetchProductsHandler();
+    } else {
+      console.log("")
+    }
   };
 
   const updateProductHandler = async (product) => {
@@ -156,13 +184,13 @@ const Products = (props) => {
     <React.Fragment>
       <div>
         <Dialog
-        className={styles.dialog}
+          className={styles.dialog}
           aria-labelledby="newProductDialog"
           aria-describedby="A popup form to submit a new product"
           isOpen={showDialog}
           onDismiss={closeDialogHandler}
         >
-          <NewProductForm
+          <AddProduct
             onSubmit={addProductHandler}
             productTypes={productTypes}
           />
@@ -193,7 +221,7 @@ const Products = (props) => {
 
         <Col>
           <h1>Product</h1>
-          <ProductForm
+          <EditProduct
             product={selectedProduct}
             productTypes={productTypes}
             onUpdate={updateProductHandler}
