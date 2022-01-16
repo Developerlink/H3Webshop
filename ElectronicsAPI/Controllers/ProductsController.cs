@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace ElectronicsAPI.Controllers
 {
-    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase

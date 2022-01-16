@@ -43,16 +43,7 @@ namespace ElectronicsAPI
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
 
-            var connectionString = "";
-
-            if (Environment.MachineName == "WLT02") // Home computer
-            {
-                connectionString = Configuration["connectionStrings:electronicsHomeDbConnectionString"];
-            }
-            else
-            {
-                connectionString = Configuration["connectionStrings:electronicsSchoolDbConnectionString"];
-            }
+            var connectionString = Configuration["connectionStrings:electronicsHomeDbConnectionString"];
 
             services.AddDbContext<ElectronicsDbContext>(cnn => cnn.UseSqlServer(connectionString));
             services.AddSwaggerGen();
